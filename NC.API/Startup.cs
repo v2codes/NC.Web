@@ -78,7 +78,13 @@ namespace NC.API
             #endregion
 
             #region add ef core
-            services.AddDbContext<CTX>(options => options.UseSqlServer(defaultConnection));
+            services.AddDbContext<CTX>(options =>
+            {
+                
+                options.UseSqlServer(defaultConnection);
+                // TODO
+                //options.RegisterGeneric(typeof(RepositoryBase<>)).As(typeof(IRepository<>)).InstancePerDependency();
+            });
             #endregion
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -92,7 +98,8 @@ namespace NC.API
 
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage(new DeveloperExceptionPageOptions() {
+                app.UseDeveloperExceptionPage(new DeveloperExceptionPageOptions()
+                {
 
                 });
             }
