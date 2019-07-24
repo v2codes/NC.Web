@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,8 +31,12 @@ namespace NC.API
 
         public IConfiguration Configuration { get; }
 
+        // autofac
+        // Creates, wires dependencies and manages lifetime for a set of components. Most instances of Autofac.IContainer are created by a Autofac.ContainerBuilder.
+        public IContainer ApplicationContainer { get; set; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
 
             string defaultConnection = Configuration.GetConnectionString("DefaultConnection");
@@ -80,7 +86,7 @@ namespace NC.API
             #region add ef core
             services.AddDbContext<CTX>(options =>
             {
-                
+
                 options.UseSqlServer(defaultConnection);
                 // TODO
                 //options.RegisterGeneric(typeof(RepositoryBase<>)).As(typeof(IRepository<>)).InstancePerDependency();
@@ -88,6 +94,16 @@ namespace NC.API
             #endregion
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            #region 配置 Autofac 
+            var _autoFacBuilder = new ContainerBuilder();
+            _autoFacBuilder.Populate(services);
+            ApplicationContainer = _autoFacBuilder.Build();
+            // 注册仓储泛型
+            _autoFacBuilder.RegisterGeneric(typeof(RepositoryBase<>)).As(typeof(IRepository<>)).InstancePerDependency();
+            // 让第三方容器接管Core 的默认DI
+            return new AutofacServiceProvider(ApplicationContainer);
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -110,7 +126,16 @@ namespace NC.API
             }
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+
+            app.UseStaticFiles();
+
+            app.UseMvc(routes =>
+            {
+                //routes.MapRoute(
+                //    name: "default",
+                //    template: "{controller=Home}/{action=Index}/{id?}"
+                //);
+            });
         }
     }
 }

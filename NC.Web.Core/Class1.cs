@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NC.Service
+namespace NC.Web.Core
 {
     public class Class1
     {
