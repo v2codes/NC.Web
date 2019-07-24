@@ -18,54 +18,54 @@ namespace NC.Model.Repository
         Task<int> AddAsync(T entity);
         int AddRange(ICollection<T> entities);
         Task<int> AddRangeAsync(ICollection<T> entities);
-        void BulkInsert(IList<T> entities, string destinationTableName = null);
-        int AddBySql(string sql);
+        //void BulkInsert(IList<T> entities, string destinationTableName = null);
+        //int AddBySql(string sql);
 
         #endregion
 
-        #region Delete
+        //#region Delete
 
-        int Delete(TKey key);
-        int Delete(Expression<Func<T, bool>> @where);
-        Task<int> DeleteAsync(Expression<Func<T, bool>> @where);
-        int DeleteBySql(string sql);
-        #endregion
+        //int Delete(TKey key);
+        //int Delete(Expression<Func<T, bool>> @where);
+        //Task<int> DeleteAsync(Expression<Func<T, bool>> @where);
+        //int DeleteBySql(string sql);
+        //#endregion
 
-        #region Update
+        //#region Update
 
-        int Edit(T entity);
-        int EditRange(ICollection<T> entities);
-        int BatchUpdate(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateExp);
-        Task<int> BatchUpdateAsync(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateExp);
-        int Update(T model, params string[] updateColumns);
-        int Update(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory);
-        Task<int> UpdateAsync(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory);
-        int UpdateBySql(string sql);
+        //int Update(T entity);
+        //int UpdateRange(ICollection<T> entities);
+        //int BatchUpdate(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateExp);
+        //Task<int> BatchUpdateAsync(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateExp);
+        //int Update(T model, params string[] updateColumns);
+        //int Update(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory);
+        //Task<int> UpdateAsync(Expression<Func<T, bool>> @where, Expression<Func<T, T>> updateFactory);
+        //int UpdateBySql(string sql);
 
-        #endregion
+        //#endregion
 
-        #region Query
+        //#region Query
 
-        int Count(Expression<Func<T, bool>> @where = null);
-        Task<int> CountAsync(Expression<Func<T, bool>> @where = null);
-        bool Exist(Expression<Func<T, bool>> @where = null);
-        Task<bool> ExistAsync(Expression<Func<T, bool>> @where = null);
-        T GetSingle(TKey key);
-        T GetSingle(TKey key, Func<IQueryable<T>, IQueryable<T>> includeFunc);
-        Task<T> GetSingleAsync(TKey key);
-        T GetSingleOrDefault(Expression<Func<T, bool>> @where = null);
-        Task<T> GetSingleOrDefaultAsync(Expression<Func<T, bool>> @where = null);
-        IQueryable<T> Get(Expression<Func<T, bool>> @where = null);
-        Task<List<T>> GetAsync(Expression<Func<T, bool>> @where = null);
-        IEnumerable<T> GetByPagination(Expression<Func<T, bool>> @where, int pageSize, int pageIndex, bool asc = true,
-            params Func<T, object>[] @orderby);
+        //int Count(Expression<Func<T, bool>> @where = null);
+        //Task<int> CountAsync(Expression<Func<T, bool>> @where = null);
+        //bool Exist(Expression<Func<T, bool>> @where = null);
+        //Task<bool> ExistAsync(Expression<Func<T, bool>> @where = null);
+        //T GetSingle(TKey key);
+        //T GetSingle(TKey key, Func<IQueryable<T>, IQueryable<T>> includeFunc);
+        //Task<T> GetSingleAsync(TKey key);
+        //T GetSingleOrDefault(Expression<Func<T, bool>> @where = null);
+        //Task<T> GetSingleOrDefaultAsync(Expression<Func<T, bool>> @where = null);
+        //IQueryable<T> Get(Expression<Func<T, bool>> @where = null);
+        //Task<List<T>> GetAsync(Expression<Func<T, bool>> @where = null);
+        //IEnumerable<T> GetByPagination(Expression<Func<T, bool>> @where, int pageSize, int pageIndex, bool asc = true,
+        //    params Func<T, object>[] @orderby);
 
-        List<T> GetBySql(string sql);
+        //List<T> GetBySql(string sql);
 
-        List<TView> GetViews<TView>(string sql);
-        List<TView> GetViews<TView>(string viewName, Func<TView, bool> where);
+        //List<TView> GetViews<TView>(string sql);
+        //List<TView> GetViews<TView>(string viewName, Func<TView, bool> where);
 
-        #endregion
+        //#endregion
 
         int SaveChange();
         Task<int> SaveChangesAsync();

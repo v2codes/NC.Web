@@ -124,13 +124,16 @@ namespace NC.API
         public IContainer ApplicationContainer { get; set; }
         private IServiceProvider AddAutoFac(IServiceCollection services)
         {
-            var _autoFacBuilder = new ContainerBuilder();
-            _autoFacBuilder.Populate(services);
-            ApplicationContainer = _autoFacBuilder.Build();
-            // 注册仓储泛型
-            _autoFacBuilder.RegisterGeneric(typeof(RepositoryBase<>)).As(typeof(IRepository<>)).InstancePerDependency();
-            // 让第三方容器接管Core 的默认DI
-            return new AutofacServiceProvider(ApplicationContainer);
+            //var _autoFacBuilder = new ContainerBuilder();
+            //_autoFacBuilder.Populate(services);
+            //ApplicationContainer = _autoFacBuilder.Build();
+            //// 注册仓储泛型
+            //_autoFacBuilder.RegisterGeneric(typeof(RepositoryBase<>)).As(typeof(IRepository<>)).InstancePerDependency();
+            //// 让第三方容器接管Core 的默认DI
+            //return new AutofacServiceProvider(ApplicationContainer);
+
+            services.AddSingleton(Configuration)
+                    .AddScoped(typeof(RepositoryBase<>), typeof(RepositoryBase<>));
         }
         #endregion
 
