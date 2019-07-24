@@ -19,6 +19,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NC.Identity;
 using NC.Model;
+using NC.Model.Repository;
 
 namespace NC.API
 {
@@ -31,26 +32,46 @@ namespace NC.API
 
         public IConfiguration Configuration { get; }
 
-        // autofac
-        // Creates, wires dependencies and manages lifetime for a set of components. Most instances of Autofac.IContainer are created by a Autofac.ContainerBuilder.
-        public IContainer ApplicationContainer { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        //public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
+            // add cors
+            AddCors(services);
 
+            // add for identity
+            AddIdentityDbContext(services);
+
+            // add ef core
+            AddEfDbContext(services);
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            // add Autofac 第三方容器接管Core的默认DI，需修改当前方法返回值为 IServiceProvider
+            // return AddAutoFac(services);
+
+            #region 默认DI
+            //services.addtr
+            #endregion
+        }
+
+        #region add cors
+        private void AddCors(IServiceCollection services)
+        {
+            services.AddCors(options => options.AddPolicy("Cors", policy =>
+             {
+                 policy.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+             }));
+        }
+        #endregion
+
+        #region add identity
+        private void AddIdentityDbContext(IServiceCollection services)
+        {
             string defaultConnection = Configuration.GetConnectionString("DefaultConnection");
-
-            // add CORS
-            services.AddCors(options => options.AddPolicy("Cors", builder =>
-            {
-                builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-            }));
-
-            #region add for identity
 
             // add EF and IdentityFramework
             services.AddDbContext<ApplicationUserDbContext>(options =>
@@ -81,21 +102,28 @@ namespace NC.API
 
                 };
             });
-            #endregion
+        }
+        #endregion
 
-            #region add ef core
+        #region add ef core
+        private void AddEfDbContext(IServiceCollection services)
+        {
+            string defaultConnection = Configuration.GetConnectionString("DefaultConnection");
+
             services.AddDbContext<CTX>(options =>
             {
-
                 options.UseSqlServer(defaultConnection);
                 // TODO
                 //options.RegisterGeneric(typeof(RepositoryBase<>)).As(typeof(IRepository<>)).InstancePerDependency();
             });
-            #endregion
+        }
+        #endregion
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            #region 配置 Autofac 
+        #region add AutoFac
+        // Creates, wires dependencies and manages lifetime for a set of components. Most instances of Autofac.IContainer are created by a Autofac.ContainerBuilder.
+        public IContainer ApplicationContainer { get; set; }
+        private IServiceProvider AddAutoFac(IServiceCollection services)
+        {
             var _autoFacBuilder = new ContainerBuilder();
             _autoFacBuilder.Populate(services);
             ApplicationContainer = _autoFacBuilder.Build();
@@ -103,9 +131,10 @@ namespace NC.API
             _autoFacBuilder.RegisterGeneric(typeof(RepositoryBase<>)).As(typeof(IRepository<>)).InstancePerDependency();
             // 让第三方容器接管Core 的默认DI
             return new AutofacServiceProvider(ApplicationContainer);
-            #endregion
         }
+        #endregion
 
+        #region configure the HTTP request pipeline 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -137,5 +166,6 @@ namespace NC.API
                 //);
             });
         }
+        #endregion
     }
 }

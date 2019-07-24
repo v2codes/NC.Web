@@ -8,13 +8,13 @@ namespace NC.Model.EntityModels
     /// <summary>
     /// 泛型实体基类
     /// </summary>
-    /// <typeparam name="TPrimary">主键类型</typeparam>
-    public abstract class Entity<TPrimary>
+    /// <typeparam name="TKey">主键类型</typeparam>
+    public abstract class Entity<TKey>
     {
         /// <summary>
         /// 主键
         /// </summary>
         [Key]
-        public virtual TPrimary Id { get; set; }
+        public virtual TKey Id { get; set; }
     }
 }
