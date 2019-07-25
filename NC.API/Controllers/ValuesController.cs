@@ -5,20 +5,29 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NC.Model.EntityModels;
+using NC.Model.Repository;
+using NC.Service;
 using NC.Web.Common.log4net;
 
 namespace NC.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class ValuesController : ControllerBase
     {
         private readonly ILogger _logger;
-        public ValuesController(ILogger<ValuesController> logger)
+        private readonly IRepository<Blog,Guid> _repository;
+        private readonly IService<Blog,Guid> _service;
+        public ValuesController(ILogger<ValuesController> logger, IService<Blog,Guid> service) // , IRepository<Blog,Guid> repository
         {
             _logger = logger;
+            //_repository = repository;
+            //_service = service;
         }
+
+        #region default actions
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
@@ -52,5 +61,7 @@ namespace NC.API.Controllers
         public void Delete(int id)
         {
         }
+        #endregion
+
     }
 }

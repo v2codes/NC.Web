@@ -12,7 +12,7 @@ namespace NC.Model.Repository
     /// 仓储基类
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class RepositoryBase<T> : IRepository<T, Guid> where T : EntityBase
+    public class RepositoryBase<T, TKey> : IRepository<T, TKey> where T : EntityBase
     {
         protected readonly CTX dbContext;
 
@@ -26,29 +26,29 @@ namespace NC.Model.Repository
 
         //#region Insert
 
-        //public virtual int Add(T entity)
-        //{
-        //    dbContext.Add(entity);
-        //    return SaveChange();
-        //}
+        public virtual int Add(T entity)
+        {
+            dbContext.Add(entity);
+            return SaveChange();
+        }
 
-        //public virtual async Task<int> AddAsync(T entity)
-        //{
-        //    dbContext.Add(entity);
-        //    return await SaveChangesAsync();
-        //}
+        public virtual async Task<int> AddAsync(T entity)
+        {
+            dbContext.Add(entity);
+            return await SaveChangesAsync();
+        }
 
-        //public virtual int AddRange(ICollection<T> entities)
-        //{
-        //    dbContext.AddRange(entities);
-        //    return SaveChange();
-        //}
+        public virtual int AddRange(ICollection<T> entities)
+        {
+            dbContext.AddRange(entities);
+            return SaveChange();
+        }
 
-        //public virtual async Task<int> AddRangeAsync(ICollection<T> entities)
-        //{
-        //    dbContext.AddRange(entities);
-        //    return await SaveChangesAsync();
-        //}
+        public virtual async Task<int> AddRangeAsync(ICollection<T> entities)
+        {
+            dbContext.AddRange(entities);
+            return await SaveChangesAsync();
+        }
 
         ////public virtual void BulkInsert(IList<T> entities, string destinationTableName = null)
         ////{
@@ -293,5 +293,7 @@ namespace NC.Model.Repository
         {
             return await dbContext.SaveChangesAsync();
         }
+
+
     }
 }

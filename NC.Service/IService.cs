@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NC.Service
 {
-    public interface IService<T> where T : EntityBase
+    public interface IService<T, TKey> where T : EntityBase
     {
         #region Insert
 

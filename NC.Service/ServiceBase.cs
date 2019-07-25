@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace NC.Service
 {
-    public abstract class ServiceBase<T> : IService<T> where T : EntityBase
+    public abstract class ServiceBase<T, TKey> : IService<T, TKey> where T : EntityBase
     {
-        public IRepository<T,Guid> _repository { get; set; }
+        public IRepository<T, TKey> _repository { get; set; }
 
-        protected ServiceBase(IRepository<T, Guid> repository)
+        protected ServiceBase(IRepository<T, TKey> repository)
         {
             _repository = repository;
         }

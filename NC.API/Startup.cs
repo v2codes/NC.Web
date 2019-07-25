@@ -19,7 +19,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NC.Identity;
 using NC.Model;
+using NC.Model.EntityModels;
 using NC.Model.Repository;
+using NC.Service;
 
 namespace NC.API
 {
@@ -52,7 +54,7 @@ namespace NC.API
             // return AddAutoFac(services);
 
             #region 默认DI
-            //services.addtr
+            AddAutoFac(services);
             #endregion
         }
 
@@ -119,10 +121,12 @@ namespace NC.API
         }
         #endregion
 
-        #region add AutoFac
+        #region add DI and AutoFac
         // Creates, wires dependencies and manages lifetime for a set of components. Most instances of Autofac.IContainer are created by a Autofac.ContainerBuilder.
         public IContainer ApplicationContainer { get; set; }
-        private IServiceProvider AddAutoFac(IServiceCollection services)
+
+        // IServiceProvider
+        private void AddAutoFac(IServiceCollection services)
         {
             //var _autoFacBuilder = new ContainerBuilder();
             //_autoFacBuilder.Populate(services);
@@ -133,7 +137,8 @@ namespace NC.API
             //return new AutofacServiceProvider(ApplicationContainer);
 
             services.AddSingleton(Configuration)
-                    .AddScoped(typeof(RepositoryBase<>), typeof(RepositoryBase<>));
+                    .AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
+            services.AddScoped(typeof(IService<,>), typeof(ServiceBase<,>));
         }
         #endregion
 
@@ -161,13 +166,14 @@ namespace NC.API
 
             app.UseStaticFiles();
 
-            app.UseMvc(routes =>
-            {
-                //routes.MapRoute(
-                //    name: "default",
-                //    template: "{controller=Home}/{action=Index}/{id?}"
-                //);
-            });
+            app.UseMvc();
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}"
+            //    );
+            //});
         }
         #endregion
     }

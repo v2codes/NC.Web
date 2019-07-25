@@ -5,13 +5,11 @@ using System.Text;
 
 namespace NC.Model.Repository
 {
-    public class BlogRepository : RepositoryBase<Blog>
+    public class BlogRepository : RepositoryBase<Blog, Guid>
     {
-        private CTX dbContext;
-        public BlogRepository(CTX dbContext) 
+        public BlogRepository(CTX dbContext)
             : base(dbContext)
         {
-            this.dbContext = dbContext;
         }
     }
 }
