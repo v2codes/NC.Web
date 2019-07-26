@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace NC.Web.Common
+namespace NC.Web.Common.Filters
 {
     ///// <summary>
     ///// 异常过滤器

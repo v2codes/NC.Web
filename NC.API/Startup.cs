@@ -22,6 +22,8 @@ using NC.Model;
 using NC.Model.EntityModels;
 using NC.Model.Repository;
 using NC.Service;
+using NC.Web.Common.DI;
+using NC.Web.Common.Reflection;
 
 namespace NC.API
 {
@@ -54,7 +56,12 @@ namespace NC.API
             // return AddAutoFac(services);
 
             #region 默认DI
-            AddAutoFac(services);
+            AddDI(services);
+            #endregion
+
+            #region AutoFac
+            //var provider = AddAutoFac(services);
+            //return provider;
             #endregion
         }
 
@@ -126,19 +133,29 @@ namespace NC.API
         public IContainer ApplicationContainer { get; set; }
 
         // IServiceProvider
-        private void AddAutoFac(IServiceCollection services)
+        private void AddDI(IServiceCollection services)
         {
-            //var _autoFacBuilder = new ContainerBuilder();
-            //_autoFacBuilder.Populate(services);
-            //ApplicationContainer = _autoFacBuilder.Build();
-            //// 注册仓储泛型
-            //_autoFacBuilder.RegisterGeneric(typeof(RepositoryBase<>)).As(typeof(IRepository<>)).InstancePerDependency();
-            //// 让第三方容器接管Core 的默认DI
-            //return new AutofacServiceProvider(ApplicationContainer);
+            //services.AddSingleton(Configuration)
+            //        .AddScoped(typeof(IRepository<Blog,Guid>), typeof(BlogRepository));
+            //services.AddScoped(typeof(IService<Blog,Guid>), typeof(BlogService));
+            var allTypes = Helper.GetTypes().Where(p=>p.Key.Name.EndsWith("Repository")|| p.Key.Name.EndsWith("Service"));
+            foreach (var item in allTypes)
+            {
+                services.BatchAddScoped(item.Key, item.Value);
+            }
+        }
+        #endregion
 
-            services.AddSingleton(Configuration)
-                    .AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
-            services.AddScoped(typeof(IService<,>), typeof(ServiceBase<,>));
+        #region AutoFac
+        private IServiceProvider AddAutoFac(IServiceCollection services)
+        {
+            var _autoFacBuilder = new ContainerBuilder();
+            _autoFacBuilder.Populate(services);
+            ApplicationContainer = _autoFacBuilder.Build();
+            // 注册仓储泛型
+            _autoFacBuilder.RegisterGeneric(typeof(RepositoryBase<,>)).As(typeof(IRepository<,>)).InstancePerDependency();
+            // 让第三方容器接管Core 的默认DI
+            return new AutofacServiceProvider(ApplicationContainer);
         }
         #endregion
 
