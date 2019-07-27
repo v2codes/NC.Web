@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
@@ -39,7 +40,7 @@ namespace NC.API
 
         // This method gets called by the runtime. Use this method to add services to the container.
         //public IServiceProvider ConfigureServices(IServiceCollection services)
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             // add cors
             AddCors(services);
@@ -56,12 +57,12 @@ namespace NC.API
             // return AddAutoFac(services);
 
             #region 默认DI
-            AddDI(services);
+            //AddDI(services);
             #endregion
 
             #region AutoFac
-            //var provider = AddAutoFac(services);
-            //return provider;
+            var provider = AddAutoFac(services);
+            return provider;
             #endregion
         }
 
@@ -128,11 +129,8 @@ namespace NC.API
         }
         #endregion
 
-        #region add DI and AutoFac
-        // Creates, wires dependencies and manages lifetime for a set of components. Most instances of Autofac.IContainer are created by a Autofac.ContainerBuilder.
-        public IContainer ApplicationContainer { get; set; }
+        #region DI
 
-        // IServiceProvider
         private void AddDI(IServiceCollection services)
         {
             // 手动注入
@@ -149,15 +147,39 @@ namespace NC.API
         #endregion
 
         #region AutoFac
+
+        // autofac 单例IoC容器
+        public IContainer ApplicationContainer { get; set; }
         private IServiceProvider AddAutoFac(IServiceCollection services)
         {
-            var _autoFacBuilder = new ContainerBuilder();
-            _autoFacBuilder.Populate(services);
-            ApplicationContainer = _autoFacBuilder.Build();
-            // 注册仓储泛型
-            _autoFacBuilder.RegisterGeneric(typeof(RepositoryBase<,>)).As(typeof(IRepository<,>)).InstancePerDependency();
+            // 新建容器构建器，用于注册组件和服务
+            var builder = new ContainerBuilder();
+            builder.Populate(services);
+            //自定义注册组件,注册泛型仓储
+            MyBuild(builder);
+            // func?.Invoke(builder);
+
+            // 利用构建器创建容器
+            ApplicationContainer = builder.Build();
+
             // 让第三方容器接管Core 的默认DI
             return new AutofacServiceProvider(ApplicationContainer);
+        }
+
+        public static void MyBuild(ContainerBuilder builder)
+        {
+            var assemblies = Helper.GetAllAssemblies().ToArray();
+
+            //注册仓储 && Service
+            builder.RegisterAssemblyTypes(assemblies)//程序集内所有具象类（concrete classes）
+                .Where(cc => cc.Name.EndsWith("Repository") |//筛选
+                             cc.Name.EndsWith("Service"))
+                .PublicOnly()//只要public访问权限的
+                .Where(cc => cc.IsClass)//只要class型（主要为了排除值和interface类型）
+                .AsImplementedInterfaces();//自动以其实现的所有接口类型暴露（包括IDisposable接口）
+
+            //注册泛型仓储
+            builder.RegisterGeneric(typeof(RepositoryBase<,>)).As(typeof(IRepository<,>));
         }
         #endregion
 
