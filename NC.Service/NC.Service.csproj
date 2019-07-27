@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NC.Model\NC.Model.csproj" />
+    <ProjectReference Include="..\NC.Web.Common\NC.Web.Common.csproj" />
   </ItemGroup>
 
 </Project>

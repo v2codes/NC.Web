@@ -20,7 +20,7 @@ namespace NC.API.Controllers
         private readonly ILogger _logger;
         private readonly IRepository<Blog,Guid> _repository;
         private readonly IService<Blog,Guid> _service;
-        public ValuesController(ILogger<ValuesController> logger, IService<Blog,Guid> service) // , IRepository<Blog,Guid> repository
+        public ValuesController(ILogger<ValuesController> logger, IService<Post,Guid> service) // , IRepository<Blog,Guid> repository
         {
             _logger = logger;
             //_repository = repository;

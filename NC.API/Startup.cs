@@ -135,14 +135,16 @@ namespace NC.API
         // IServiceProvider
         private void AddDI(IServiceCollection services)
         {
+            // 手动注入
             //services.AddSingleton(Configuration)
             //        .AddScoped(typeof(IRepository<Blog,Guid>), typeof(BlogRepository));
             //services.AddScoped(typeof(IService<Blog,Guid>), typeof(BlogService));
-            var allTypes = Helper.GetTypes().Where(p=>p.Key.Name.EndsWith("Repository")|| p.Key.Name.EndsWith("Service"));
-            foreach (var item in allTypes)
-            {
-                services.BatchAddScoped(item.Key, item.Value);
-            }
+
+            //// 反射批量注入仓储类、服务类
+            //services.AddReposAndServices();
+
+            // 反射批量注入仓储类、服务类（需标记特性DIAttribute）
+            services.AddReposAndServicesByAttribute();
         }
         #endregion
 

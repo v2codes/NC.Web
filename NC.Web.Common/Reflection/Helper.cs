@@ -12,6 +12,29 @@ namespace NC.Web.Common.Reflection
     /// </summary>
     public static class Helper
     {
+
+        /// <summary>
+        /// 获取指定程序集
+        /// </summary>
+        /// <param name="assemblyName">程序集名称</param>
+        /// <returns></returns>
+        public static Assembly GetAssembly(string assemblyName)
+        {
+            var assembly = Assembly.Load(assemblyName);
+            return assembly;
+        }
+
+        /// <summary>
+        /// 根据程序集的名字获取程序集中所有的类型集合
+        /// </summary>
+        /// <param name="AssemblyName">程序集名字</param>
+        /// <returns>类型集合</returns>
+        public static Type[] GetTypesByAssemblyName(string AssemblyName)
+        {
+            Assembly assembly = Assembly.Load(AssemblyName);
+            return assembly.GetTypes();
+        }
+
         /// <summary>
         /// 获取当前项目下所有程序集,排除所有的系统程序集(Microsoft.***、System.***等)、Nuget下载包
         /// </summary>
@@ -21,7 +44,7 @@ namespace NC.Web.Common.Reflection
         {
             var assemblies = new List<Assembly>();
             var deps = DependencyContext.Default;
-            var libs = deps.CompileLibraries.Where(p => !p.Serviceable && p.Type != "package");
+            var libs = deps.CompileLibraries.Where(p => !p.Serviceable && p.Type != "package" && p.Name.Contains(namePattern));
             foreach (var item in libs)
             {
                 var assembly = AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(item.Name));
@@ -44,18 +67,8 @@ namespace NC.Web.Common.Reflection
         }
 
         /// <summary>
-        /// 获取指定程序集
-        /// </summary>
-        /// <param name="assemblyName">程序集名称</param>
-        /// <returns></returns>
-        public static Assembly GetAssembly(string assemblyName)
-        {
-            var assembly = Assembly.Load(assemblyName);
-            return assembly;
-        }
-
-        /// <summary>
         /// 获取当前项目下所有程序集中实现类以及对应的接口
+        /// 
         /// </summary>
         /// <param name="namePattern">程序集名称关键字，默加载 NC. 命名开头的程序集</param>
         /// <returns>key 具体类， value 接口数组</returns>
