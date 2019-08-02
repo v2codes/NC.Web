@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using NC.Core.Attributes;
+using NC.Core.Repositories;
+using NC.Core.Services;
 using NC.Model.EntityModels;
-using NC.Model.Repository;
-using NC.Web.Common.Attributes;
 
 namespace NC.Service
 {
     [DI(ServiceLifetime.Scoped, typeof(IService<,>))]
-    public class PostService : ServiceBase<Post, Guid>
+    public class PostService : BaseService<Post, Guid>
     {
         public PostService(IRepository<Post, Guid> repository)
             : base(repository)

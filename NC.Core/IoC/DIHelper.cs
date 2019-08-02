@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using NC.Core.Attributes;
+using NC.Core.Helper;
 using System;
-using System.Linq;
-using NC.Web.Common.Reflection;
-using NC.Web.Common.Attributes;
-using System.Reflection;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 
-namespace NC.Web.Common.DI
+namespace NC.Core.IoC
 {
     /// <summary>
     /// net core DI 辅助类
@@ -25,7 +26,7 @@ namespace NC.Web.Common.DI
         /// <param name="lifetime">实例声明周期</param>
         public static void AddReposAndServices(this IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Scoped)
         {
-            var allTypes = Helper.GetTypes().Where(p => p.Key.Name.EndsWith("Repository") || p.Key.Name.EndsWith("Service"));
+            var allTypes = ReflectionHelper.GetTypes().Where(p => p.Key.Name.EndsWith("Repository") || p.Key.Name.EndsWith("Service"));
             foreach (var item in allTypes)
             {
                 services.AddRange(item.Key, item.Value);
@@ -36,7 +37,7 @@ namespace NC.Web.Common.DI
         /// </summary>
         public static void AddAssembly(this IServiceCollection services, string assemblyName, ServiceLifetime lifetime = ServiceLifetime.Scoped)
         {
-            var allTypes = Helper.GetTypes(assemblyName);
+            var allTypes = ReflectionHelper.GetTypes(assemblyName);
             foreach (var item in allTypes)
             {
                 services.AddRange(item.Key, item.Value, lifetime);
@@ -92,7 +93,7 @@ namespace NC.Web.Common.DI
         {
             // 根据程序集的名字 获取程序集中所有的类型
             // 过滤上述程序集 class类型、public访问修饰符、非抽象类
-            var types = Helper.GetTypesByAssemblyName(assemblyName).Where(p => p.IsClass && p.IsPublic && !p.IsAbstract);
+            var types = ReflectionHelper.GetTypesByAssemblyName(assemblyName).Where(p => p.IsClass && p.IsPublic && !p.IsAbstract);
             foreach (var type in types)
             {
                 var hasDIAttribute = type.GetCustomAttributes().Any(p => p is DIAttribute);
@@ -109,7 +110,7 @@ namespace NC.Web.Common.DI
         /// <param name="services"></param>
         public static void AddByAttribute(this IServiceCollection services)
         {
-            var allTypes = Helper.GetTypes();
+            var allTypes = ReflectionHelper.GetTypes();
             foreach (var item in allTypes)
             {
                 var hasDIAttribute = item.Key.GetCustomAttributes().Any(p => p is DIAttribute);
@@ -126,7 +127,7 @@ namespace NC.Web.Common.DI
         /// <param name="services"></param>
         public static void AddReposAndServicesByAttribute(this IServiceCollection services)
         {
-            var allTypes = Helper.GetTypes().Where(p => p.Key.Name.EndsWith("Repository") || p.Key.Name.EndsWith("Service"));
+            var allTypes = ReflectionHelper.GetTypes().Where(p => p.Key.Name.EndsWith("Repository") || p.Key.Name.EndsWith("Service"));
             foreach (var item in allTypes)
             {
                 var hasDIAttribute = item.Key.GetCustomAttributes().Any(p => p is DIAttribute);

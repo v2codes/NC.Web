@@ -5,11 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
+    <Compile Remove="Repository\**" />
+    <EmbeddedResource Remove="Repository\**" />
+    <None Remove="Repository\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="CTX.cs" />
+    <Compile Remove="EntityModels\Entity.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NC.Core\NC.Core.csproj" />
     <ProjectReference Include="..\NC.Web.Common\NC.Web.Common.csproj" />
   </ItemGroup>
 

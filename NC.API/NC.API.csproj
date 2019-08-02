@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\NC.Identity\NC.Identity.csproj" />
     <ProjectReference Include="..\NC.Model\NC.Model.csproj" />
+    <ProjectReference Include="..\NC.Repository\NC.Repository.csproj" />
     <ProjectReference Include="..\NC.Service\NC.Service.csproj" />
     <ProjectReference Include="..\NC.Web.Common\NC.Web.Common.csproj" />
   </ItemGroup>

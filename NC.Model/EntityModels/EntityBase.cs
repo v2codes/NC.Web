@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using NC.Core.Entities;
 using NC.Model.Enums;
 
 namespace NC.Model.EntityModels
@@ -13,22 +13,22 @@ namespace NC.Model.EntityModels
         /// <summary>
         /// 状态
         /// </summary>
-        public StatusEnum Status { get; set; }
+        public virtual StatusEnum Status { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime? CreateDate { get; set; }
+        public virtual DateTime? CreateDate { get; set; }
         /// <summary>
         /// 创建人
         /// </summary>
-        public Guid? CreateUserId { get; set; }
+        public virtual Guid? CreateUserId { get; set; }
         /// <summary>
         /// 更新时间
         /// </summary>
-        public DateTime? ModifyDate { get; set; }
+        public virtual DateTime? ModifyDate { get; set; }
         /// <summary>
         /// 更新人
         /// </summary>
-        public Guid? ModifyUserId { get; set; }
+        public virtual Guid? ModifyUserId { get; set; }
     }
 }

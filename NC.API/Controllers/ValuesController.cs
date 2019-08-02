@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NC.Core.Repositories;
+using NC.Core.Services;
 using NC.Model.EntityModels;
-using NC.Model.Repository;
 using NC.Service;
 using NC.Web.Common.log4net;
 
@@ -18,9 +19,9 @@ namespace NC.API.Controllers
     public class ValuesController : ControllerBase
     {
         private readonly ILogger _logger;
-        private readonly IRepository<Blog,Guid> _repository;
-        private readonly IService<Blog,Guid> _service;
-        public ValuesController(ILogger<ValuesController> logger, IService<Post,Guid> service) // , IRepository<Blog,Guid> repository
+        private readonly IRepository<Blog, Guid> _repository;
+        private readonly IService<Blog, Guid> _service;
+        public ValuesController(ILogger<ValuesController> logger, IRepository<Blog, Guid> repository, IService<Post, Guid> service) // , IRepository<Blog,Guid> repository
         {
             _logger = logger;
             //_repository = repository;

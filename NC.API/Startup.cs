@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
@@ -18,13 +17,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using NC.Core.Database;
+using NC.Core.Helper;
+using NC.Core.IoC;
+using NC.Core.Repositories;
 using NC.Identity;
-using NC.Model;
-using NC.Model.EntityModels;
-using NC.Model.Repository;
-using NC.Service;
-using NC.Web.Common.DI;
-using NC.Web.Common.Reflection;
 
 namespace NC.API
 {
@@ -133,10 +130,10 @@ namespace NC.API
 
         private void AddDI(IServiceCollection services)
         {
-            // 手动注入
+            //// 手动注入
             //services.AddSingleton(Configuration)
-            //        .AddScoped(typeof(IRepository<Blog,Guid>), typeof(BlogRepository));
-            //services.AddScoped(typeof(IService<Blog,Guid>), typeof(BlogService));
+            //        .AddScoped(typeof(IRepository<Blog, Guid>), typeof(BlogRepository));
+            //services.AddScoped(typeof(IService<Blog, Guid>), typeof(BlogService));
 
             //// 反射批量注入仓储类、服务类
             //services.AddReposAndServices();
@@ -168,7 +165,7 @@ namespace NC.API
 
         public static void MyBuild(ContainerBuilder builder)
         {
-            var assemblies = Helper.GetAllAssemblies().ToArray();
+            var assemblies = ReflectionHelper.GetAllAssemblies().ToArray();
 
             //注册仓储 && Service
             builder.RegisterAssemblyTypes(assemblies)//程序集内所有具象类（concrete classes）
@@ -179,7 +176,7 @@ namespace NC.API
                 .AsImplementedInterfaces();//自动以其实现的所有接口类型暴露（包括IDisposable接口）
 
             //注册泛型仓储
-            builder.RegisterGeneric(typeof(RepositoryBase<,>)).As(typeof(IRepository<,>));
+            builder.RegisterGeneric(typeof(BaseRepository<,>)).As(typeof(IRepository<,>));
         }
         #endregion
 

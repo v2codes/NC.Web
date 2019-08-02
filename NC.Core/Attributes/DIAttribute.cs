@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NC.Web.Common.Attributes
+namespace NC.Core.Attributes
 {
     /// <summary>
     /// 用于标注 DI依赖注入 的特性定义
@@ -34,7 +34,7 @@ namespace NC.Web.Common.Attributes
         }
 
         /// <summary>
-        /// 实例声明周期
+        /// 注入实例的生命周期
         /// </summary>
         public ServiceLifetime Lifetime { get; set; }
     }

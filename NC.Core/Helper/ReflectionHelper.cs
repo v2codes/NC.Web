@@ -1,18 +1,18 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
-using Microsoft.Extensions.DependencyModel;
+using System.Text;
 
-namespace NC.Web.Common.Reflection
+namespace NC.Core.Helper
 {
     /// <summary>
-    /// 反射辅助类
+    /// IoC 反射辅助
     /// </summary>
-    public static class Helper
+    public class ReflectionHelper
     {
-
         /// <summary>
         /// 获取指定程序集
         /// </summary>
