@@ -11,7 +11,7 @@ namespace NC.Core.Repositories
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TKey"></typeparam>
-    public interface IRepository<T, TKey> : IDisposable where T : Entity<TKey>
+    public interface IRepository<T, TKey> : IDisposable where T : IEntity<TKey>
     {
         #region  Insert
         int Add(T entity);

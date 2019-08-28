@@ -16,4 +16,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\NC.Model\NC.Model.csproj" />
+  </ItemGroup>
 </Project>

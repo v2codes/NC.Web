@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace NC.Identity
+namespace NC.Identity.Models
 {
     /// <summary>
     /// Application User

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace NC.Model.Identity
+namespace NC.Identity.Models
 {
     /// <summary>
     /// 登录Model

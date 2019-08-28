@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NC.Core.Repositories;
 using NC.Core.Services;
@@ -27,6 +28,16 @@ namespace NC.API.Controllers
             //_repository = repository;
             //_service = service;
         }
+
+        ////! 注入IUnitOfWork
+        //private readonly IUnitOfWork _unitOfWork;
+        //public ValuesController(IUnitOfWork unitOfWork, ILogger<ValuesController> logger)
+        //{
+        //    //_logger = logger;
+        //    _unitOfWork = unitOfWork;
+        //    var repo = unitOfWork.GetRepository<Post>();
+        //    var cusRepo = unitOfWork.GetRepository<Post>(true);
+        //}
 
         #region default actions
         // GET api/values

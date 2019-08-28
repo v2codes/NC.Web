@@ -10,7 +10,7 @@ namespace NC.Core.Services
     /// <summary>
     /// Service 基类
     /// </summary>
-    public abstract class BaseService<T, TKey> : IService<T, TKey> where T : Entity<TKey>
+    public abstract class BaseService<T, TKey> : IService<T, TKey> where T : class,IEntity<TKey>
     {
         /// <summary>
         /// 仓储服务

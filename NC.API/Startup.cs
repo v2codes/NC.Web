@@ -22,6 +22,9 @@ using NC.Core.Helper;
 using NC.Core.IoC;
 using NC.Core.Repositories;
 using NC.Identity;
+using NC.Identity.Models;
+using NC.Identity.Store;
+using NC.Model.EntityModels;
 
 namespace NC.API
 {
@@ -37,7 +40,7 @@ namespace NC.API
 
         // This method gets called by the runtime. Use this method to add services to the container.
         //public IServiceProvider ConfigureServices(IServiceCollection services)
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             // add cors
             AddCors(services);
@@ -48,18 +51,21 @@ namespace NC.API
             // add ef core
             AddEfDbContext(services);
 
+            //// add UnitOfWork
+            //AddUnitOfWork(services);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // add Autofac 第三方容器接管Core的默认DI，需修改当前方法返回值为 IServiceProvider
             // return AddAutoFac(services);
 
             #region 默认DI
-            //AddDI(services);
+            AddDI(services);
             #endregion
 
             #region AutoFac
-            var provider = AddAutoFac(services);
-            return provider;
+            //var provider = AddAutoFac(services);
+            //return provider;
             #endregion
         }
 
@@ -84,7 +90,12 @@ namespace NC.API
             services.AddDbContext<ApplicationUserDbContext>(options =>
                 options.UseSqlServer(defaultConnection));
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
+            services.AddTransient<IUserStore<SysUser>, ApplicationUserStore>();
+            services.AddTransient<IRoleStore<SysRole>, ApplicationRoleStore>();
+
+            //services.AddIdentity<ApplicationUser, ApplicationRole>()
+            //        .AddEntityFrameworkStores<ApplicationUserDbContext>();
+            services.AddIdentity<SysUser, SysRole>()
                     .AddEntityFrameworkStores<ApplicationUserDbContext>();
 
             // add authentication
@@ -123,6 +134,13 @@ namespace NC.API
                 // TODO
                 //options.RegisterGeneric(typeof(RepositoryBase<>)).As(typeof(IRepository<>)).InstancePerDependency();
             });
+        }
+        #endregion
+
+        #region add Microsoft.EntityFrameworkCore.UnitOfWork
+        private void AddUnitOfWork(IServiceCollection services)
+        {
+            services.AddUnitOfWork<CTX>();
         }
         #endregion
 

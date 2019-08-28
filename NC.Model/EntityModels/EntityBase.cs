@@ -8,7 +8,7 @@ namespace NC.Model.EntityModels
     /// 所有数据表实体类都必须继承此类
     /// </summary>
     [Serializable]
-    public class EntityBase : Entity<Guid>
+    public class EntityBase : IEntity<Guid>
     {
         /// <summary>
         /// 状态
@@ -30,5 +30,9 @@ namespace NC.Model.EntityModels
         /// 更新人
         /// </summary>
         public virtual Guid? ModifyUserId { get; set; }
+        public Guid Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        int? IEntity<Guid>.Status { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        Guid IEntity<Guid>.CreateUserId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        Guid IEntity<Guid>.ModifyUserId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

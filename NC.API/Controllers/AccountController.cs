@@ -12,8 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using NC.Identity;
-using NC.Model.Identity;
+using NC.Identity.Models;
+using NC.Model.EntityModels;
 
 namespace NC.API.Controllers
 {
@@ -22,13 +22,13 @@ namespace NC.API.Controllers
     [AllowAnonymous]
     public class AccountController : ControllerBase
     {
-        readonly UserManager<ApplicationUser> userManager;
-        readonly SignInManager<ApplicationUser> signInManager;
+        readonly UserManager<SysUser> userManager;
+        readonly SignInManager<SysUser> signInManager;
         readonly IConfiguration configuration;
         readonly ILogger<AccountController> logger;
 
-        public AccountController(UserManager<ApplicationUser> userManager,
-           SignInManager<ApplicationUser> signInManager,
+        public AccountController(UserManager<SysUser> userManager,
+           SignInManager<SysUser> signInManager,
            IConfiguration configuration,
            ILogger<AccountController> logger)
         {
@@ -76,12 +76,14 @@ namespace NC.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser()
+            var user = new SysUser()
             {
                 // TODO Use Automapper instead of manual binding
                 UserName = registerModel.UserName,
-                FirstName = registerModel.FirstName,
-                LastName = registerModel.LastName,
+                Status = 1,
+                CreateUserId = Guid.NewGuid(),
+                ModifyUserId = Guid.NewGuid(),
+                CreateDate = DateTime.Now,
                 Email = registerModel.Email
             };
 

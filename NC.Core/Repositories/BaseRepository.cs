@@ -13,7 +13,7 @@ namespace NC.Core.Repositories
     /// </summary>
     /// <typeparam name="T">实体类型</typeparam>
     /// <typeparam name="TKey">主键类型</typeparam>
-    public abstract class BaseRepository<T, TKey> : IRepository<T, TKey> where T : Entity<TKey>
+    public abstract class BaseRepository<T, TKey> : IRepository<T, TKey> where T : class, IEntity<TKey>
     {
         /// <summary>
         /// DbContext

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NC.Identity
+namespace NC.Identity.Models
 {
     /// <summary>
     /// 自定义角色

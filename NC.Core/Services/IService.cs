@@ -9,7 +9,7 @@ namespace NC.Core.Services
     /// <summary>
     /// Service接口
     /// </summary>
-    public interface IService<T, TKey> where T : Entity<TKey>
+    public interface IService<T, TKey> where T : IEntity<TKey>
     {
         #region  Insert
         int Add(T entity);

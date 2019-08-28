@@ -32,7 +32,8 @@ namespace NC.Core.Database
             var modelTypes = ReflectionHelper.GetTypesByAssemblyName("NC.Model");
             foreach (var item in modelTypes)
             {
-                if (item.BaseType == typeof(Entity<>))
+                // if (item.BaseType == typeof(IEntity<>))
+                if (item.HasImplementedRawGeneric(typeof(IEntity<>)))
                 {
                     modelBuilder.Model.GetOrAddEntityType(item);
                 }
