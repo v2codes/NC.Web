@@ -9,6 +9,9 @@ using NC.Model.EntityModels;
 
 namespace NC.Repository
 {
+    /// <summary>
+    /// Blog 仓储类
+    /// </summary>
     [DI(ServiceLifetime.Scoped, typeof(IRepository<,>))]
     public class BlogRepository : BaseRepository<Blog, Guid>
     {

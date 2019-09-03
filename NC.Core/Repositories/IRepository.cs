@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using NC.Core.Entities;
+using NC.Web.Common.Extensions;
 
 namespace NC.Core.Repositories
 {
@@ -59,11 +60,11 @@ namespace NC.Core.Repositories
         Task<T> FindAsync(TKey key);
         T Find(TKey key, Func<IQueryable<T>, IQueryable<T>> includeFunc);
         Task<T> FindAsync(TKey key, Func<IQueryable<T>, IQueryable<T>> includeFunc);
-        T GetFirstOrDefault(Expression<Func<T, bool>> @where = null);
-        Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> @where = null);
+        T FirstOrDefault(Expression<Func<T, bool>> @where = null);
+        Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> @where = null);
         IQueryable<T> Query(Expression<Func<T, bool>> @where = null);
         Task<List<T>> QueryAsync(Expression<Func<T, bool>> @where = null);
-        IEnumerable<T> QueryPagedList(Expression<Func<T, bool>> @where, int pageSize, int pageIndex, bool asc = true, params Func<T, object>[] @orderby);
+        PagedList<T> QueryPagedList(Expression<Func<T, bool>> @where, int pageSize, int pageIndex, bool asc = true, params Func<T, object>[] @orderby);
         List<T> Query(string sql);
         List<TView> QueryViews<TView>(string sql);
         List<TView> QueryViews<TView>(string viewName, Func<TView, bool> where);

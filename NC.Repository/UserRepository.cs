@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Extensions.DependencyInjection;
-using NC.Core.Attributes;
-using NC.Core.Database;
-using NC.Core.Repositories;
 using NC.Model.EntityModels;
+using NC.Core.Attributes;
+using NC.Core.Repositories;
+using Microsoft.EntityFrameworkCore;
+using NC.Core.Database;
 
 namespace NC.Repository
 {
@@ -13,9 +14,10 @@ namespace NC.Repository
     /// Post 仓储类
     /// </summary>
     [DI(ServiceLifetime.Scoped, typeof(IRepository<,>))]
-    public class PostRepository : BaseRepository<Post, Guid>
+    public class UserRepository : BaseRepository<SysUser, Guid>
     {
-        public PostRepository(CTX dbContext) : base(dbContext)
+        public UserRepository(CTX db) 
+            : base(db)
         {
         }
     }

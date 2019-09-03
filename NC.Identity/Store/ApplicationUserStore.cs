@@ -15,7 +15,7 @@ namespace NC.Identity.Store
     /// </summary>
     public class ApplicationUserStore : IUserStore<SysUser>
     {
-        private 
+        private readonly UserRepository
         public ApplicationUserStore()
         {
 
