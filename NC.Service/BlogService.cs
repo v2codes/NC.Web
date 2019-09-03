@@ -9,6 +9,9 @@ using NC.Model.EntityModels;
 
 namespace NC.Service
 {
+    /// <summary>
+    /// Blog Service
+    /// </summary>
     [DI(ServiceLifetime.Scoped, typeof(IService<,>))]
     public class BlogService : BaseService<Blog, Guid>
     {

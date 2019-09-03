@@ -15,6 +15,12 @@ namespace NC.Identity.Store
     /// </summary>
     public class ApplicationUserStore : IUserStore<SysUser>
     {
+        private 
+        public ApplicationUserStore()
+        {
+
+        }
+
         public Task<IdentityResult> CreateAsync(SysUser user, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
