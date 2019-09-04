@@ -9,7 +9,7 @@ using System.Text;
 namespace NC.Identity
 {
     /// <summary>
-    /// Application user db context
+    /// Identity 数据库上下文
     /// </summary>
     public class ApplicationUserDbContext : IdentityDbContext<SysUser, SysRole, Guid>
     {

@@ -15,10 +15,10 @@ namespace NC.Identity.Store
     /// </summary>
     public class ApplicationUserStore : IUserStore<SysUser>
     {
-        private readonly UserRepository
-        public ApplicationUserStore()
+        private readonly ApplicationUserDbContext _db;
+        public ApplicationUserStore(ApplicationUserDbContext dbContext)
         {
-
+            _db = dbContext;
         }
 
         public Task<IdentityResult> CreateAsync(SysUser user, CancellationToken cancellationToken)

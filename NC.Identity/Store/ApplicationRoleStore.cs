@@ -11,6 +11,11 @@ namespace NC.Identity.Store
 {
     public class ApplicationRoleStore : IRoleStore<SysRole>
     {
+        private readonly ApplicationUserDbContext _db;
+        public ApplicationRoleStore(ApplicationUserDbContext dbContext)
+        {
+            _db = dbContext;
+        }
         public Task<IdentityResult> CreateAsync(SysRole role, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();

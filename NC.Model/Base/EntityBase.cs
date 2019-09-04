@@ -2,18 +2,28 @@
 using NC.Core.Entities;
 using NC.Model.Enums;
 
-namespace NC.Model.EntityModels
+namespace NC.Model.EntityModels.Base
 {
     /// <summary>
     /// 所有数据表实体类都必须继承此类
     /// </summary>
     [Serializable]
-    public class EntityBase : IEntity<Guid>
+    public abstract class EntityBase : IEntity<Guid>
     {
+        public EntityBase()
+        {
+            Id = Guid.NewGuid();
+            Status = (int)StatusEnum.Normal;
+            CreateDate = DateTime.Now;
+        }
+        /// <summary>
+        /// ID
+        /// </summary>
+        public Guid Id { get; set; }
         /// <summary>
         /// 状态
         /// </summary>
-        public virtual StatusEnum Status { get; set; }
+        public virtual int? Status { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>
@@ -30,9 +40,6 @@ namespace NC.Model.EntityModels
         /// 更新人
         /// </summary>
         public virtual Guid? ModifyUserId { get; set; }
-        public Guid Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        int? IEntity<Guid>.Status { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        Guid IEntity<Guid>.CreateUserId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        Guid IEntity<Guid>.ModifyUserId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
     }
 }

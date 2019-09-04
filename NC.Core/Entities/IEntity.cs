@@ -20,21 +20,5 @@ namespace NC.Core.Entities
         /// 状态
         /// </summary>
         int? Status { get; set; }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        DateTime? CreateDate { get; set; }
-        /// <summary>
-        /// 创建人
-        /// </summary>
-        TKey CreateUserId { get; set; }
-        /// <summary>
-        /// 更新时间
-        /// </summary>
-        DateTime? ModifyDate { get; set; }
-        /// <summary>
-        /// 更新人
-        /// </summary>
-        TKey ModifyUserId { get; set; }
     }
 }
