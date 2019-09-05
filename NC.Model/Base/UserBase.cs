@@ -17,6 +17,16 @@ namespace NC.Model.EntityModels.Base
             Id = Guid.NewGuid();
             Status = (int)StatusEnum.Normal;
             CreateDate = DateTime.Now;
+
+            /* Identity 非空字段 */
+            // 是否已确认邮件地址
+            EmailConfirmed = false;
+            // 是否已确认电话号码 
+            PhoneNumberConfirmed = false;
+            // 是否启用了两个因素身份认证
+            TwoFactorEnabled = false;
+            // 是否已锁定
+            LockoutEnabled = false;
         }
         /// <summary>
         /// 状态

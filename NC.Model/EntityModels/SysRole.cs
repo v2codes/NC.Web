@@ -12,5 +12,13 @@ namespace NC.Model.EntityModels
     /// </summary>
     public class SysRole : RoleBase
     {
+        /// <summary>
+        /// 是否默认角色
+        /// </summary>
+        public virtual bool? IsDefault{ get; set; }
+        /// <summary>
+        /// 是否系统角色
+        /// </summary>
+        public virtual bool? IsSystem{ get; set; }
     }
 }
