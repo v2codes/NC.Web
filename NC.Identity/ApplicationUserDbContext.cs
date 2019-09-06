@@ -18,5 +18,11 @@ namespace NC.Identity
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<SysUser>().ToTable("SysUser");
+            builder.Entity<SysRole>().ToTable("SysRole");
+        }
     }
 }

@@ -46,7 +46,7 @@ namespace NC.API
             AddCors(services);
 
             // add for identity
-            AddIdentityDbContext(services);
+            AddIdentity(services);
 
             // add ef core
             AddEfDbContext(services);
@@ -82,7 +82,7 @@ namespace NC.API
         #endregion
 
         #region add identity
-        private void AddIdentityDbContext(IServiceCollection services)
+        private void AddIdentity(IServiceCollection services)
         {
             string defaultConnection = Configuration.GetConnectionString("DefaultConnection");
 
@@ -90,13 +90,16 @@ namespace NC.API
             services.AddDbContext<ApplicationUserDbContext>(options =>
                 options.UseSqlServer(defaultConnection));
 
-            services.AddTransient<IUserStore<SysUser>, ApplicationUserStore>();
-            services.AddTransient<IRoleStore<SysRole>, ApplicationRoleStore>();
-
-            //services.AddIdentity<ApplicationUser, ApplicationRole>()
-            //        .AddEntityFrameworkStores<ApplicationUserDbContext>();
+            //// add custom normalizer (UpperInvariantLookupNormalizer is the default)
+            // services.AddScoped<ILookupNormalizer, UpperInvariantLookupNormalizer>();
+            
+            // add identity types
             services.AddIdentity<SysUser, SysRole>()
                     .AddEntityFrameworkStores<ApplicationUserDbContext>();
+
+            // add services
+            services.AddTransient<IUserStore<SysUser>, ApplicationUserStore>();
+            services.AddTransient<IRoleStore<SysRole>, ApplicationRoleStore>();
 
             // add authentication
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]));

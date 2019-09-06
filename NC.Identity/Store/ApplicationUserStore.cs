@@ -15,7 +15,7 @@ namespace NC.Identity.Store
     /// <summary>
     /// 自定义 UserStore
     /// </summary>
-    public class ApplicationUserStore : IUserStore<SysUser>, IUserPasswordStore<SysUser>
+    public class ApplicationUserStore : IUserStore<SysUser>, IUserPasswordStore<SysUser>,IUserEmailStore<SysUser>
     {
         private bool _disposed;
         private readonly ApplicationUserDbContext _db;
@@ -112,7 +112,7 @@ namespace NC.Identity.Store
             {
                 throw new ArgumentNullException(nameof(user));
             }
-            return Task.FromResult(user.UserName);
+            return Task.FromResult("u_"+user.UserName);
         }
 
         /// <summary>
@@ -278,6 +278,141 @@ namespace NC.Identity.Store
             }
 
             return Task.FromResult(string.IsNullOrEmpty(user.PasswordHash));
+        }
+        #endregion
+
+        #region IUserEmailStore
+
+        /// <summary>
+        /// 设置用户邮件地址
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="email"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task SetEmailAsync(SysUser user, string email, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            user.Email = email;
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// 获取用户邮件地址
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<string> GetEmailAsync(SysUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            return Task.FromResult(user.Email);
+        }
+
+        /// <summary>
+        /// 获取邮件是否已确认
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<bool> GetEmailConfirmedAsync(SysUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            return Task.FromResult(user.EmailConfirmed);
+        }
+
+        /// <summary>
+        /// 设置邮件是否已确认
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="confirmed"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task SetEmailConfirmedAsync(SysUser user, bool confirmed, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            user.EmailConfirmed = confirmed;
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// 根据 邮件地址 查找用户
+        /// </summary>
+        /// <param name="normalizedEmail"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<SysUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+
+            var user = _db.Users.FirstOrDefault(p => p.NormalizedEmail == normalizedEmail);
+            return Task.FromResult(user);
+        }
+
+        /// <summary>
+        /// 获取规范化邮件地址
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<string> GetNormalizedEmailAsync(SysUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            return Task.FromResult(user.Email);
+        }
+
+        /// <summary>
+        /// 设置规范化邮件地址
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="normalizedEmail"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task SetNormalizedEmailAsync(SysUser user, string normalizedEmail, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            user.NormalizedEmail = normalizedEmail;
+
+            return Task.CompletedTask;
         }
         #endregion
 
