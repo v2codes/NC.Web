@@ -10,8 +10,8 @@ using NC.Core.Database;
 namespace NC.Core.Migrations
 {
     [DbContext(typeof(CTX))]
-    [Migration("20190906003112_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20190908022149_InitNCWeb")]
+    partial class InitNCWeb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,11 +28,11 @@ namespace NC.Core.Migrations
 
                     b.Property<DateTime?>("CreateDate");
 
-                    b.Property<Guid>("CreateUserId");
+                    b.Property<Guid?>("CreateUserId");
 
                     b.Property<DateTime?>("ModifyDate");
 
-                    b.Property<Guid>("ModifyUserId");
+                    b.Property<Guid?>("ModifyUserId");
 
                     b.Property<int?>("Status");
 
@@ -56,11 +56,11 @@ namespace NC.Core.Migrations
 
                     b.Property<DateTime?>("CreateDate");
 
-                    b.Property<Guid>("CreateUserId");
+                    b.Property<Guid?>("CreateUserId");
 
                     b.Property<DateTime?>("ModifyDate");
 
-                    b.Property<Guid>("ModifyUserId");
+                    b.Property<Guid?>("ModifyUserId");
 
                     b.Property<int?>("Status");
 

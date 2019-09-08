@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NC.Core.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitNCWeb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,9 +14,9 @@ namespace NC.Core.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Status = table.Column<int>(nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: true),
-                    CreateUserId = table.Column<Guid>(nullable: false),
+                    CreateUserId = table.Column<Guid>(nullable: true),
                     ModifyDate = table.Column<DateTime>(nullable: true),
-                    ModifyUserId = table.Column<Guid>(nullable: false),
+                    ModifyUserId = table.Column<Guid>(nullable: true),
                     Url = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -83,9 +83,9 @@ namespace NC.Core.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Status = table.Column<int>(nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: true),
-                    CreateUserId = table.Column<Guid>(nullable: false),
+                    CreateUserId = table.Column<Guid>(nullable: true),
                     ModifyDate = table.Column<DateTime>(nullable: true),
-                    ModifyUserId = table.Column<Guid>(nullable: false),
+                    ModifyUserId = table.Column<Guid>(nullable: true),
                     Title = table.Column<string>(nullable: true),
                     Content = table.Column<string>(nullable: true),
                     BlogId = table.Column<int>(nullable: false),

@@ -26,11 +26,11 @@ namespace NC.Core.Migrations
 
                     b.Property<DateTime?>("CreateDate");
 
-                    b.Property<Guid>("CreateUserId");
+                    b.Property<Guid?>("CreateUserId");
 
                     b.Property<DateTime?>("ModifyDate");
 
-                    b.Property<Guid>("ModifyUserId");
+                    b.Property<Guid?>("ModifyUserId");
 
                     b.Property<int?>("Status");
 
@@ -54,11 +54,11 @@ namespace NC.Core.Migrations
 
                     b.Property<DateTime?>("CreateDate");
 
-                    b.Property<Guid>("CreateUserId");
+                    b.Property<Guid?>("CreateUserId");
 
                     b.Property<DateTime?>("ModifyDate");
 
-                    b.Property<Guid>("ModifyUserId");
+                    b.Property<Guid?>("ModifyUserId");
 
                     b.Property<int?>("Status");
 
