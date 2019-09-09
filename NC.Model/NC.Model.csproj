@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NC.Common\NC.Common.csproj" />
     <ProjectReference Include="..\NC.Core\NC.Core.csproj" />
-    <ProjectReference Include="..\NC.Web.Common\NC.Web.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

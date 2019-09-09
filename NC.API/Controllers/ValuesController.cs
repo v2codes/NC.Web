@@ -10,7 +10,7 @@ using NC.Core.Repositories;
 using NC.Core.Services;
 using NC.Model.EntityModels;
 using NC.Service;
-using NC.Web.Common.log4net;
+using NC.Common.log;
 
 namespace NC.API.Controllers
 {
@@ -45,7 +45,7 @@ namespace NC.API.Controllers
         public ActionResult<IEnumerable<string>> Get()
         {
             _logger.LogInformation("This log is written by ILogger");
-            LogHelper.Info("lllllllllllllllll");
+            Common.log.log4net.Info("lllllllllllllllll");
             return new string[] { "value1", "value2" };
         }
 
