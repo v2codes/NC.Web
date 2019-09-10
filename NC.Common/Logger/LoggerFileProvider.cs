@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.Logging;
 
-namespace NC.Common.log
+namespace NC.Common.Log
 {
     /// <summary>
     /// TODO 自定义文件日志
