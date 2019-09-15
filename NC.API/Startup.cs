@@ -25,6 +25,7 @@ using NC.Identity;
 using NC.Identity.Models;
 using NC.Identity.Store;
 using NC.Model.EntityModels;
+using NC.Web.Common.Middleware;
 
 namespace NC.API
 {
@@ -148,7 +149,10 @@ namespace NC.API
         #endregion
 
         #region DI
-
+        /// <summary>
+        /// net core 默认依赖注入
+        /// </summary>
+        /// <param name="services"></param>
         private void AddDI(IServiceCollection services)
         {
             //// 手动注入
@@ -224,6 +228,9 @@ namespace NC.API
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
+
+            // 自定义异常处理中间件
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseMvc();
             //app.UseMvc(routes =>

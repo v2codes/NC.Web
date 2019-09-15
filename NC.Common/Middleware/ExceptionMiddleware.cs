@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using NC.Common.Exceptions;
+using Newtonsoft.Json;
 
 namespace NC.Web.Common.Middleware
 {

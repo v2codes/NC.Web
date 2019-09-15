@@ -23,14 +23,17 @@ namespace NC.API
             })
             .ConfigureLogging((hostingContext, logging) =>
             {
+                logging.ClearProviders();
                 logging.AddFilter("System", LogLevel.Warning)
                        .AddFilter("Microsoft", LogLevel.Warning)
-                       .AddConfiguration(hostingContext.Configuration.GetSection("logging"))
-                       .AddConsole()
-                       .AddDebug()
-                       .AddEventSourceLogger();
-                // TODO how to use it?
-                // .AddLog4Net("log4net.config", true);
+                       // .AddConfiguration(hostingContext.Configuration.GetSection("logging"))
+                       // .AddConsole()
+                       // .AddDebug()
+                       // .AddEventSourceLogger()
+                       
+                       // 添加 log4net
+                       .AddLog4Net("log4net.config", true);
+
             })
             .UseStartup<Startup>();
     }

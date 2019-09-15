@@ -10,14 +10,14 @@ using NC.Core.Repositories;
 using NC.Core.Services;
 using NC.Model.EntityModels;
 using NC.Service;
-using NC.Common.Log;
+//using NC.Common.Log;
+using NC.Common.Controller;
 
 namespace NC.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
     //[Authorize]
-    public class ValuesController : ControllerBase
+    public class ValuesController : BaseController
     {
         private readonly ILogger _logger;
         private readonly IRepository<Blog, Guid> _repository;
@@ -44,9 +44,9 @@ namespace NC.API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            _logger.LogInformation("This log is written by ILogger");
-            Common.Log.log4net.Info("lllllllllllllllll");
-            return new string[] { "value1", "value2" };
+            //_logger.LogInformation();
+            var userId = this.LoginUserId;
+            return this.Success(new string[] { "value1", "value2" });
         }
 
         // GET api/values/5
