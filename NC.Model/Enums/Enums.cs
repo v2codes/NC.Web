@@ -7,7 +7,7 @@ namespace NC.Model.Enums
     /// <summary>
     /// 默认状态字段
     /// </summary>
-    public enum StatusEnum
+    public enum EnumStatus
     {
         /// <summary>
         /// 正常

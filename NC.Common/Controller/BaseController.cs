@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace NC.Common.Controller
@@ -55,17 +56,31 @@ namespace NC.Common.Controller
         }
 
         /// <summary>
-        /// 日志工具
+        /// 日志
         /// </summary>
-        private readonly ILogger<BaseController> logger;
+        protected readonly ILogger<BaseController> logger;
 
+        /// <summary>
+        /// 应用配置
+        /// </summary>
+        protected readonly IConfiguration configuration;
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public BaseController()
         {
         }
 
-        public BaseController (ILogger<BaseController> _logger)
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="_logger">注入日志工具</param>
+        /// <param name="_configuration">注入配置文件</param>
+        public BaseController(ILogger<BaseController> _logger, IConfiguration _configuration)
         {
             logger = _logger;
+            configuration = _configuration;
         }
     }
 }

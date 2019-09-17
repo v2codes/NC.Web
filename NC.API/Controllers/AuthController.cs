@@ -18,23 +18,20 @@ using NC.Model.EntityModels;
 
 namespace NC.API.Controllers
 {
+    /// <summary>
+    /// 登录授权
+    /// </summary>
     [AllowAnonymous]
     public class AuthController : BaseController
     {
         readonly UserManager<SysUser> userManager;
         readonly SignInManager<SysUser> signInManager;
-        readonly IConfiguration configuration;
-        readonly ILogger<AuthController> logger;
 
-        public AuthController(UserManager<SysUser> userManager,
-           SignInManager<SysUser> signInManager,
-           IConfiguration configuration,
-           ILogger<AuthController> logger)
+        public AuthController(UserManager<SysUser> userManager, SignInManager<SysUser> signInManager, IConfiguration configuration, ILogger<AuthController> logger)
+            : base(logger, configuration)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.configuration = configuration;
-            this.logger = logger;
         }
 
         /// <summary>

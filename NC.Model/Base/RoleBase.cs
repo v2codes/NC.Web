@@ -13,7 +13,7 @@ namespace NC.Model.EntityModels.Base
         public RoleBase()
         {
             Id = Guid.NewGuid();
-            Status = (int)StatusEnum.Normal;
+            Status = (int)EnumStatus.Normal;
             CreateDate = DateTime.Now;
         }
         /// <summary>

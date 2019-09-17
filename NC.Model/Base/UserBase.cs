@@ -15,7 +15,7 @@ namespace NC.Model.EntityModels.Base
         {
             Id = Guid.NewGuid();
             Id = Guid.NewGuid();
-            Status = (int)StatusEnum.Normal;
+            Status = (int)EnumStatus.Normal;
             CreateDate = DateTime.Now;
 
             /* Identity 非空字段 */
