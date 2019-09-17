@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace NC.Common.Controller
 {
@@ -9,6 +10,7 @@ namespace NC.Common.Controller
     /// 控制器基类
     /// </summary>
     [ApiController]
+    [Route("api/[controller]")]
     public class BaseController : ControllerBase
     {
         /// <summary>
@@ -50,6 +52,20 @@ namespace NC.Common.Controller
                 }
                 return string.Empty;
             }
+        }
+
+        /// <summary>
+        /// 日志工具
+        /// </summary>
+        private readonly ILogger<BaseController> logger;
+
+        public BaseController()
+        {
+        }
+
+        public BaseController (ILogger<BaseController> _logger)
+        {
+            logger = _logger;
         }
     }
 }

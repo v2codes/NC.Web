@@ -12,17 +12,18 @@ using NC.Model.EntityModels;
 using NC.Service;
 //using NC.Common.Log;
 using NC.Common.Controller;
+using NC.Common.Exceptions;
 
 namespace NC.API.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     //[Authorize]
-    public class ValuesController : BaseController
+    public class TestController : BaseController
     {
         private readonly ILogger _logger;
         private readonly IRepository<Blog, Guid> _repository;
         private readonly IService<Blog, Guid> _service;
-        public ValuesController(ILogger<ValuesController> logger, IRepository<Blog, Guid> repository, IService<Post, Guid> service) // , IRepository<Blog,Guid> repository
+        public TestController(ILogger<TestController> logger, IRepository<Blog, Guid> repository, IService<Post, Guid> service) // , IRepository<Blog,Guid> repository
         {
             _logger = logger;
             //_repository = repository;
@@ -47,6 +48,16 @@ namespace NC.API.Controllers
             //_logger.LogInformation();
             var userId = this.LoginUserId;
             return this.Success(new string[] { "value1", "value2" });
+        }
+
+        /// <summary>
+        /// 异常处理
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<IEnumerable<string>> GetException()
+        {
+            throw new CustomException("这是一个自定义且未经处理的异常...");
         }
 
         // GET api/values/5

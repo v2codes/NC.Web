@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NC.Core.Entities;
 using NC.Core.Repositories;
-using NC.Web.Common.Extensions;
+using NC.Common.Extensions;
 
 namespace NC.Core.Services
 {
@@ -70,9 +70,9 @@ namespace NC.Core.Services
         /// </summary>
         /// <param name="entities"></param>
         /// <param name="destinationTableName"></param>
-        public void BatchInsert(IList<T> entities, string destinationTableName = null)
+        public void BulkInsert(IList<T> entities, string destinationTableName = null)
         {
-            _repo.BatchInsert(entities, destinationTableName);
+            _repo.BulkInsert(entities, destinationTableName);
         }
         #endregion
 

@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -7,7 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NC.Core.Database;
 using NC.Core.Entities;
-using NC.Web.Common.Extensions;
+using NC.Common.Extensions;
 using Z.EntityFramework.Plus;
 
 namespace NC.Core.Repositories
@@ -79,11 +82,48 @@ namespace NC.Core.Repositories
         /// </summary>
         /// <param name="entities"></param>
         /// <param name="destinationTableName"></param>
-        public virtual void BatchInsert(IList<T> entities, string destinationTableName = null)
+        public virtual void BulkInsert(IList<T> entities, string destinationTableName = null)
         {
             if (!_db.Database.IsSqlServer()) // && !_db.Database.IsMySql()
                 throw new NotSupportedException("This method only supports for SQL Server."); //  or MySql
-            throw new NotImplementedException("该方法暂未实现。");
+            using (SqlConnection connect = new SqlConnection())
+            {
+                connect.ConnectionString = _db.Database.GetDbConnection().ConnectionString;
+                if (connect.State != System.Data.ConnectionState.Open)
+                {
+                    connect.Open();
+                }
+                string tableName = string.Empty;
+                var tType = typeof(T);
+                var tableAttribute = tType.GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault();
+                if (tableAttribute != null)
+                {
+                    tableName = ((TableAttribute)tableAttribute).Name;
+                }
+                else
+                {
+                    tableName = tType.Name;
+                }
+                using (var transaction = connect.BeginTransaction())
+                {
+                    try
+                    {
+                        var bulkCopy = new SqlBulkCopy(connect, SqlBulkCopyOptions.Default, transaction)
+                        {
+                            BatchSize = entities.Count,
+                            DestinationTableName = tableName
+                        };
+                        GenerateColumnMappings<T>(bulkCopy.ColumnMappings);
+                        bulkCopy.WriteToServer(entities.ToDataTable());
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw ex;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -156,7 +196,6 @@ namespace NC.Core.Repositories
         /// <returns></returns>
         public virtual async Task<int> UpdateAsync(T model, params string[] updateColumns)
         {
-            throw new NotImplementedException("该方法暂未实现。");
             if (updateColumns != null && updateColumns.Length > 0)
             {
                 if (_db.Entry(model).State == EntityState.Added || _db.Entry(model).State == EntityState.Detached)
@@ -350,7 +389,7 @@ namespace NC.Core.Repositories
         /// </summary>
         /// <param name="where"></param>
         /// <returns></returns>
-        public virtual int LogicDelete(Expression<Func<T, bool>>@where)
+        public virtual int LogicDelete(Expression<Func<T, bool>> @where)
         {
             var instance = Activator.CreateInstance<T>();
             instance.Status = 999;
@@ -577,6 +616,31 @@ namespace NC.Core.Repositories
         {
             return DbSet.FromSql(sql).Cast<T>().ToList();
         }
+        #endregion
+
+        #region Helper
+
+        /// <summary>
+        /// 实体字段映射数据库列
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="mappings"></param>
+        private void GenerateColumnMappings<TBulk>(SqlBulkCopyColumnMappingCollection mappings) where TBulk : class
+        {
+            var properties = typeof(TBulk).GetProperties();
+            foreach (var property in properties)
+            {
+                if (property.GetCustomAttributes(typeof(KeyAttribute), true).Any())
+                {
+                    mappings.Add(new SqlBulkCopyColumnMapping(property.Name, typeof(T).Name + property.Name));
+                }
+                else
+                {
+                    mappings.Add(new SqlBulkCopyColumnMapping(property.Name, property.Name));
+                }
+            }
+        }
+
         #endregion
 
         #region SaveChange & Dispose

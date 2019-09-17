@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NC.Web.Common.Extensions
+namespace NC.Common.Extensions
 {
     /// <summary>
     /// IPagedList

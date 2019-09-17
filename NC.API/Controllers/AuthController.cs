@@ -12,25 +12,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using NC.Common.Controller;
 using NC.Identity.Models;
 using NC.Model.EntityModels;
 
 namespace NC.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     [AllowAnonymous]
-    public class AccountController : ControllerBase
+    public class AuthController : BaseController
     {
         readonly UserManager<SysUser> userManager;
         readonly SignInManager<SysUser> signInManager;
         readonly IConfiguration configuration;
-        readonly ILogger<AccountController> logger;
+        readonly ILogger<AuthController> logger;
 
-        public AccountController(UserManager<SysUser> userManager,
+        public AuthController(UserManager<SysUser> userManager,
            SignInManager<SysUser> signInManager,
            IConfiguration configuration,
-           ILogger<AccountController> logger)
+           ILogger<AuthController> logger)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -59,7 +58,7 @@ namespace NC.API.Controllers
             }
 
             var user = await userManager.FindByNameAsync(loginModel.UserName);
-            return Ok(GetToken(user));
+            return this.Success(GetToken(user));
         }
 
         /// <summary>
@@ -93,7 +92,7 @@ namespace NC.API.Controllers
                 return BadRequest(identityResult.Errors);
             }
             await this.signInManager.SignInAsync(user, isPersistent: false);
-            return Ok(GetToken(user));
+            return this.Success(GetToken(user));
         }
 
         /// <summary>
@@ -109,7 +108,7 @@ namespace NC.API.Controllers
                 User.Identity.Name ??
                 User.Claims.Where(p => p.Properties.ContainsKey("unique_name")).Select(p => p.Value).FirstOrDefault()
             );
-            return Ok(GetToken(user));
+            return this.Success(GetToken(user));
         }
 
         /// <summary>

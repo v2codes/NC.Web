@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using NC.Core.Entities;
-using NC.Web.Common.Extensions;
+using NC.Common.Extensions;
 
 namespace NC.Core.Repositories
 {
@@ -21,7 +21,7 @@ namespace NC.Core.Repositories
         Task<int> AddAsync(T entity);
         int AddRange(ICollection<T> entities);
         Task<int> AddRangeAsync(ICollection<T> entities);
-        void BatchInsert(IList<T> entities, string destinationTableName = null);
+        void BulkInsert(IList<T> entities, string destinationTableName = null);
         int Add(string sql);
         #endregion
 
