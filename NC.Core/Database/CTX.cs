@@ -2,8 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NC.Common.Extensions;
 using NC.Core.Entities;
-using NC.Core.Helper;
+using NC.Common.Helper;
 
 namespace NC.Core.Database
 {

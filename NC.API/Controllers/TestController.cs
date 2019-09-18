@@ -55,9 +55,11 @@ namespace NC.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Route("getexception")]
         public ActionResult<IEnumerable<string>> GetException()
         {
-            throw new CustomException("这是一个自定义且未经处理的异常...");
+            // return this.Success("测试异常捕捉");
+            throw new Exception("这是一个自定义且未经处理的异常...");
         }
 
         // GET api/values/5

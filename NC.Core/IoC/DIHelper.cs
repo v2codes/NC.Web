@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using NC.Core.Attributes;
-using NC.Core.Helper;
+using NC.Common.Attributes;
+using NC.Common.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;

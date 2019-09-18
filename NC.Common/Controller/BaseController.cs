@@ -77,6 +77,26 @@ namespace NC.Common.Controller
         /// </summary>
         /// <param name="_logger">注入日志工具</param>
         /// <param name="_configuration">注入配置文件</param>
+        public BaseController(IConfiguration _configuration)
+        {
+            configuration = _configuration;
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="_logger">注入日志工具</param>
+        /// <param name="_configuration">注入配置文件</param>
+        public BaseController(ILogger<BaseController> _logger)
+        {
+            logger = _logger;
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="_logger">注入日志工具</param>
+        /// <param name="_configuration">注入配置文件</param>
         public BaseController(ILogger<BaseController> _logger, IConfiguration _configuration)
         {
             logger = _logger;

@@ -9,7 +9,7 @@ namespace NC.Common.Extensions
     /// <summary>
     /// 实体集合转换为 DataTable
     /// </summary>
-    public static class DataTableExtension
+    public static class IEnumerableExtension
     {
         public static DataTable ToDataTable<T>(this IEnumerable<T> source)
         {

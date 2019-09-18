@@ -1,12 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 using NC.Model.EntityModels;
-using NC.Core.Attributes;
 using NC.Core.Repositories;
-using Microsoft.EntityFrameworkCore;
 using NC.Core.Database;
+using NC.Common.Attributes;
 
 namespace NC.Repository
 {

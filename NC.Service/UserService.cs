@@ -1,12 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using NC.Core.Attributes;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
+using NC.Common.Attributes;
 using NC.Core.Repositories;
 using NC.Core.Services;
 using NC.Model.EntityModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NC.Service
 {

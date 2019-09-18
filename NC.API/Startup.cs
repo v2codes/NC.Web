@@ -17,15 +17,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using NC.Common.Helper;
 using NC.Core.Database;
-using NC.Core.Helper;
 using NC.Core.IoC;
 using NC.Core.Repositories;
 using NC.Identity;
 using NC.Identity.Models;
 using NC.Identity.Store;
 using NC.Model.EntityModels;
-using NC.Web.Common.Middleware;
+using NC.Common.Middleware;
+using System.IO;
 
 namespace NC.API
 {
@@ -40,7 +41,7 @@ namespace NC.API
 
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        //public IServiceProvider ConfigureServices(IServiceCollection services)
+        // public IServiceProvider ConfigureServices(IServiceCollection services)
         public void ConfigureServices(IServiceCollection services)
         {
             // add cors
@@ -60,14 +61,39 @@ namespace NC.API
             // add Autofac 第三方容器接管Core的默认DI，需修改当前方法返回值为 IServiceProvider
             // return AddAutoFac(services);
 
-            #region 默认DI
+            // default DI 
             AddDI(services);
-            #endregion
 
-            #region AutoFac
+            // AutoFac DI
             //var provider = AddAutoFac(services);
             //return provider;
-            #endregion
+
+            // register the Swagger services
+            // services.AddOpenApiDocument(config =>
+            services.AddSwaggerDocument(config =>
+            {
+                config.PostProcess = doc =>
+                {
+                    //doc.Info.Version = "v1";
+                    doc.Info.Title = "NC.Web API";
+                    doc.Info.Description = "A simple ASP.NET Core web API";
+                    //doc.Info.TermsOfService = "None";
+                    //doc.Info.Contact = new NSwag.OpenApiContact
+                    //{
+                    //    Name = "Leo",
+                    //    Email = "leo.guo08@gmail.com",
+                    //    Url = "http:localhost:5000"
+                    //};
+                    //doc.Info.License = new NSwag.OpenApiLicense
+                    //{
+                    //    Name = "Use under LICX",
+                    //    Url = "http:localhost:5000/license"
+                    //};
+                    var xmlPath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "NC.API.xml");
+                    doc.DocumentPath = xmlPath;
+                };
+
+            });
         }
 
         #region add cors
@@ -93,7 +119,7 @@ namespace NC.API
 
             //// add custom normalizer (UpperInvariantLookupNormalizer is the default)
             // services.AddScoped<ILookupNormalizer, UpperInvariantLookupNormalizer>();
-            
+
             // add identity types
             services.AddIdentity<SysUser, SysRole>()
                     .AddEntityFrameworkStores<ApplicationUserDbContext>();
@@ -148,7 +174,7 @@ namespace NC.API
         }
         #endregion
 
-        #region DI
+        #region default DI
         /// <summary>
         /// net core 默认依赖注入
         /// </summary>
@@ -205,8 +231,8 @@ namespace NC.API
         }
         #endregion
 
-        #region configure the HTTP request pipeline 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        #region This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseCors("Cors");
@@ -229,8 +255,13 @@ namespace NC.API
 
             app.UseStaticFiles();
 
-            // 自定义异常处理中间件
+            // use custom exception middleware
             app.UseMiddleware<ExceptionMiddleware>();
+
+            // Register the Swagger generator and the Swagger UI middlewares
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
+            app.UseReDoc();
 
             app.UseMvc();
             //app.UseMvc(routes =>

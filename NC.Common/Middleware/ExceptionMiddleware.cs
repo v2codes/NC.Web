@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using NC.Common.Exceptions;
+using NC.Common.Response;
 using Newtonsoft.Json;
 
-namespace NC.Web.Common.Middleware
+namespace NC.Common.Middleware
 {
     /// <summary>
     /// 异常处理中间件
@@ -16,12 +17,18 @@ namespace NC.Web.Common.Middleware
     public class ExceptionMiddleware
     {
         /// <summary>
+        /// 日志工具
+        /// </summary>
+        private readonly ILogger<ExceptionMiddleware> logger;
+
+        /// <summary>
         /// 处理 HTTP 请求委托
         /// </summary>
         private readonly RequestDelegate next;
 
-        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> _logger)
         {
+            this.logger = _logger;
             this.next = next;
         }
 
@@ -50,20 +57,24 @@ namespace NC.Web.Common.Middleware
         /// <param name="context"></param>
         /// <param name="exception"></param>
         /// <returns></returns>
-        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             var code = HttpStatusCode.InternalServerError; // 500 if unexpected
-
 
             if (exception is CustomNotFoundException) code = HttpStatusCode.NotFound;
             else if (exception is CustomUnauthorizedException) code = HttpStatusCode.Unauthorized;
             else if (exception is CustomException) code = HttpStatusCode.BadRequest;
 
-            var result = JsonConvert.SerializeObject(new { error = exception.Message });
+            var msg = $"{exception.Message}{Environment.NewLine}{exception.InnerException}{exception.StackTrace}";
+
+            // 日志记录
+            logger.LogError(msg);
+
+            // 自定义异常响应内容
+            var result = JsonConvert.SerializeObject(new ApiResponse(msg));
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
             return context.Response.WriteAsync(result);
-
 
             //context.Response.StatusCode = 500;
             //context.Response.ContentType = "text/json;charset=utf-8;";
