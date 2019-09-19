@@ -89,8 +89,9 @@ namespace NC.API
                     //    Name = "Use under LICX",
                     //    Url = "http:localhost:5000/license"
                     //};
-                    var xmlPath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "NC.API.xml");
-                    doc.DocumentPath = xmlPath;
+
+                    //var xmlPath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "NC.API.xml");
+                    //doc.DocumentPath = xmlPath;
                 };
 
             });
@@ -259,7 +260,11 @@ namespace NC.API
             app.UseMiddleware<ExceptionMiddleware>();
 
             // Register the Swagger generator and the Swagger UI middlewares
-            app.UseOpenApi();
+            app.UseOpenApi(config =>
+            {
+                config.DocumentName = "swagger";
+                config.Path = "/swagger/v1/swagger.json";
+            });
             app.UseSwaggerUi3();
             app.UseReDoc();
 
