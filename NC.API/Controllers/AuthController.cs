@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using NC.Common.Controller;
 using NC.Identity.Models;
 using NC.Model.EntityModels;
+using NSwag.Annotations;
 
 namespace NC.API.Controllers
 {
@@ -22,6 +23,7 @@ namespace NC.API.Controllers
     /// 登录授权
     /// </summary>
     [AllowAnonymous]
+    [SwaggerTag("登录相关")]
     public class AuthController : BaseController
     {
         readonly UserManager<SysUser> userManager;

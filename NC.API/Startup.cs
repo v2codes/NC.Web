@@ -260,11 +260,12 @@ namespace NC.API
             app.UseMiddleware<ExceptionMiddleware>();
 
             // Register the Swagger generator and the Swagger UI middlewares
-            app.UseOpenApi(config =>
-            {
-                config.DocumentName = "swagger";
-                config.Path = "/swagger/v1/swagger.json";
-            });
+            app.UseOpenApi();
+            //app.UseOpenApi(config =>
+            //{
+            //    config.DocumentName = "swagger";
+            //    config.Path = "/swagger/v1/swagger.json";
+            //});
             app.UseSwaggerUi3();
             app.UseReDoc();
 
