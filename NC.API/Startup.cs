@@ -27,6 +27,7 @@ using NC.Identity.Store;
 using NC.Model.EntityModels;
 using NC.Common.Middleware;
 using System.IO;
+using Microsoft.Extensions.FileProviders;
 
 namespace NC.API
 {
@@ -68,15 +69,19 @@ namespace NC.API
             //var provider = AddAutoFac(services);
             //return provider;
 
+            // TODO： 怎么指定不同的 Controller 生成到不同的文档？？？
             // register the Swagger services
             // services.AddOpenApiDocument(config =>
             services.AddSwaggerDocument(config =>
             {
+                config.DocumentName = "sys";
                 config.PostProcess = doc =>
                 {
-                    //doc.Info.Version = "v1";
+                    doc.Info.Version = "v1.0.0";
                     doc.Info.Title = "NC.Web API";
                     doc.Info.Description = "A simple ASP.NET Core web API";
+
+                    #region 
                     //doc.Info.TermsOfService = "None";
                     //doc.Info.Contact = new NSwag.OpenApiContact
                     //{
@@ -89,11 +94,18 @@ namespace NC.API
                     //    Name = "Use under LICX",
                     //    Url = "http:localhost:5000/license"
                     //};
-
-                    //var xmlPath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "NC.API.xml");
-                    //doc.DocumentPath = xmlPath;
+                    #endregion 
                 };
-
+            });
+            services.AddSwaggerDocument(config =>
+            {
+                config.DocumentName = "biz";
+                config.PostProcess = doc =>
+                {
+                    doc.Info.Version = "v1.0.0";
+                    doc.Info.Title = "NC.Web API";
+                    doc.Info.Description = "A simple ASP.NET Core web API";
+                };
             });
         }
 
@@ -162,8 +174,6 @@ namespace NC.API
             services.AddDbContext<CTX>(options =>
             {
                 options.UseSqlServer(defaultConnection);
-                // TODO
-                //options.RegisterGeneric(typeof(RepositoryBase<>)).As(typeof(IRepository<>)).InstancePerDependency();
             });
         }
         #endregion
@@ -254,7 +264,11 @@ namespace NC.API
 
             app.UseHttpsRedirection();
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Content")),
+                RequestPath = "/Content"
+            });
 
             // use custom exception middleware
             app.UseMiddleware<ExceptionMiddleware>();
@@ -266,8 +280,23 @@ namespace NC.API
             //    config.DocumentName = "swagger";
             //    config.Path = "/swagger/v1/swagger.json";
             //});
-            app.UseSwaggerUi3();
-            app.UseReDoc();
+            app.UseSwaggerUi3(config =>
+            {
+                config.CustomStylesheetPath = "/Content/swagger/style.css";
+            });
+
+            // TODO： reDoc 不支持多 api json文件
+            //app.UseReDoc(config =>
+            //{
+            //    config.Path = "/redoc";
+            //    config.DocumentPath = "/swagger/sys/swagger.json";
+            //});
+
+            //app.UseReDoc(config =>
+            //{
+            //    config.Path = "/redoc";
+            //    config.DocumentPath = "/swagger/biz/swagger.json";
+            //});
 
             app.UseMvc();
             //app.UseMvc(routes =>

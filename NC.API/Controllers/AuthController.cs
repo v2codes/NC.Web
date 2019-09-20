@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -23,7 +24,6 @@ namespace NC.API.Controllers
     /// 登录授权
     /// </summary>
     [AllowAnonymous]
-    [SwaggerTag("登录相关")]
     public class AuthController : BaseController
     {
         readonly UserManager<SysUser> userManager;
@@ -76,7 +76,7 @@ namespace NC.API.Controllers
 
             var user = new SysUser()
             {
-                // TODO Use Automapper instead of manual binding
+                // TODO： Use Automapper instead of manual binding
                 UserName = registerModel.UserName,
                 Status = 1,
                 CreateUserId = Guid.NewGuid(),
