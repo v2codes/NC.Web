@@ -69,19 +69,20 @@ namespace NC.API
             //var provider = AddAutoFac(services);
             //return provider;
 
-            // TODO： 怎么指定不同的 Controller 生成到不同的文档？？？
+            // 使用 [ApiExplorerSettings(GroupName = "xxx")] 为 api 进行分组,对应UI中的 definition 下拉框
             // register the Swagger services
             // services.AddOpenApiDocument(config =>
             services.AddSwaggerDocument(config =>
             {
-                config.DocumentName = "sys";
+                config.DocumentName = "SYSTEM";
+                config.ApiGroupNames = new string[]{ "SYSTEM"};
                 config.PostProcess = doc =>
                 {
-                    doc.Info.Version = "v1.0.0";
+                    doc.Info.Version = "v0.1";
                     doc.Info.Title = "NC.Web API";
-                    doc.Info.Description = "A simple ASP.NET Core web API";
+                    doc.Info.Description = "SYSTEM part apis of ASP.NET Core WebApi";
 
-                    #region 
+                    #region other infos
                     //doc.Info.TermsOfService = "None";
                     //doc.Info.Contact = new NSwag.OpenApiContact
                     //{
@@ -99,12 +100,13 @@ namespace NC.API
             });
             services.AddSwaggerDocument(config =>
             {
-                config.DocumentName = "biz";
+                config.DocumentName = "BUSINESS";
+                config.ApiGroupNames = new string[]{ "BUSINESS" };
                 config.PostProcess = doc =>
                 {
-                    doc.Info.Version = "v1.0.0";
+                    doc.Info.Version = "v0.1";
                     doc.Info.Title = "NC.Web API";
-                    doc.Info.Description = "A simple ASP.NET Core web API";
+                    doc.Info.Description = "BUSINESS part apis of ASP.NET Core WebApi";
                 };
             });
         }
@@ -280,6 +282,7 @@ namespace NC.API
             //    config.DocumentName = "swagger";
             //    config.Path = "/swagger/v1/swagger.json";
             //});
+
             app.UseSwaggerUi3(config =>
             {
                 config.CustomStylesheetPath = "/Content/swagger/style.css";

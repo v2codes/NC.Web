@@ -12,6 +12,7 @@ namespace NC.Common.Controller
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
+    [ApiExplorerSettings(GroupName = "BUSINESS")]
     public class BaseController : ControllerBase
     {
         /// <summary>

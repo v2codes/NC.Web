@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace NC.Identity.Models
+namespace NC.Model.ViewModels
 {
     /// <summary>
     /// 注册Model

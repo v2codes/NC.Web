@@ -14,8 +14,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using NC.Common.Controller;
-using NC.Identity.Models;
 using NC.Model.EntityModels;
+using NC.Model.ViewModels;
 using NSwag.Annotations;
 
 namespace NC.API.Controllers
@@ -24,6 +24,8 @@ namespace NC.API.Controllers
     /// 登录授权
     /// </summary>
     [AllowAnonymous]
+    [ApiExplorerSettings(GroupName = "SYSTEM")]
+    [Description("登录授权相关")]
     public class AuthController : BaseController
     {
         readonly UserManager<SysUser> userManager;
