@@ -40,10 +40,6 @@ namespace NC.Core.Services
         Task<int> DeleteAsync(TKey key);
         int Delete(Expression<Func<T, bool>> @where);
         Task<int> DeleteAsync(Expression<Func<T, bool>> @where);
-        int LogicDelete(TKey key);
-        Task<int> LogicDeleteAsync(TKey key);
-        int LogicDelete(Expression<Func<T, bool>> @where);
-        Task<int> LogicDeleteAsync(Expression<Func<T, bool>> @where);
         #endregion
 
         #region Query

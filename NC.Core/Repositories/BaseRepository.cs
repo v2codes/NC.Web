@@ -349,64 +349,64 @@ namespace NC.Core.Repositories
             return await DbSet.Where(where).DeleteAsync();
         }
 
-        /// <summary>
-        /// 逻辑删除
-        /// TODO：逻辑删除时 Status 应赋值枚举，暂时硬编码 999
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public virtual int LogicDelete(TKey key)
-        {
-            var instance = Activator.CreateInstance<T>();
-            instance.Id = key;
-            instance.Status = 999;
-            var entry = _db.Entry(instance);
-            entry.Property(p => p.Status).IsModified = true;
-            entry.State = EntityState.Modified;
-            return _db.SaveChanges();
-        }
+        ///// <summary>
+        ///// 逻辑删除
+        ///// TODO：逻辑删除时 Status 应赋值枚举，暂时硬编码 999
+        ///// </summary>
+        ///// <param name="key"></param>
+        ///// <returns></returns>
+        //public virtual int LogicDelete(TKey key)
+        //{
+        //    var instance = Activator.CreateInstance<T>();
+        //    instance.Id = key;
+        //    instance.Status = 999;
+        //    var entry = _db.Entry(instance);
+        //    entry.Property(p => p.Status).IsModified = true;
+        //    entry.State = EntityState.Modified;
+        //    return _db.SaveChanges();
+        //}
 
-        /// <summary>
-        /// 逻辑删除
-        /// TODO：逻辑删除时 Status 应赋值枚举，暂时硬编码 999
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public virtual async Task<int> LogicDeleteAsync(TKey key)
-        {
-            var instance = Activator.CreateInstance<T>();
-            instance.Id = key;
-            instance.Status = 999;
-            var entry = _db.Entry(instance);
-            entry.Property(p => p.Status).IsModified = true;
-            entry.State = EntityState.Modified;
-            return await _db.SaveChangesAsync();
-        }
+        ///// <summary>
+        ///// 逻辑删除
+        ///// TODO：逻辑删除时 Status 应赋值枚举，暂时硬编码 999
+        ///// </summary>
+        ///// <param name="key"></param>
+        ///// <returns></returns>
+        //public virtual async Task<int> LogicDeleteAsync(TKey key)
+        //{
+        //    var instance = Activator.CreateInstance<T>();
+        //    instance.Id = key;
+        //    instance.Status = 999;
+        //    var entry = _db.Entry(instance);
+        //    entry.Property(p => p.Status).IsModified = true;
+        //    entry.State = EntityState.Modified;
+        //    return await _db.SaveChangesAsync();
+        //}
 
-        /// <summary>
-        /// 逻辑删除
-        /// TODO：逻辑删除时 Status 应赋值枚举，暂时硬编码 999
-        /// </summary>
-        /// <param name="where"></param>
-        /// <returns></returns>
-        public virtual int LogicDelete(Expression<Func<T, bool>> @where)
-        {
-            var instance = Activator.CreateInstance<T>();
-            instance.Status = 999;
-            return DbSet.Where(where).Update(x => instance);
-        }
+        ///// <summary>
+        ///// 逻辑删除
+        ///// TODO：逻辑删除时 Status 应赋值枚举，暂时硬编码 999
+        ///// </summary>
+        ///// <param name="where"></param>
+        ///// <returns></returns>
+        //public virtual int LogicDelete(Expression<Func<T, bool>> @where)
+        //{
+        //    var instance = Activator.CreateInstance<T>();
+        //    instance.Status = 999;
+        //    return DbSet.Where(where).Update(x => instance);
+        //}
 
-        /// <summary>
-        /// 删除
-        /// </summary>
-        /// <param name="where"></param>
-        /// <returns></returns>
-        public virtual Task<int> LogicDeleteAsync(Expression<Func<T, bool>> @where)
-        {
-            var instance = Activator.CreateInstance<T>();
-            instance.Status = 999;
-            return DbSet.Where(where).UpdateAsync(x => instance);
-        }
+        ///// <summary>
+        ///// 删除
+        ///// </summary>
+        ///// <param name="where"></param>
+        ///// <returns></returns>
+        //public virtual Task<int> LogicDeleteAsync(Expression<Func<T, bool>> @where)
+        //{
+        //    var instance = Activator.CreateInstance<T>();
+        //    instance.Status = 999;
+        //    return DbSet.Where(where).UpdateAsync(x => instance);
+        //}
 
         /// <summary>
         /// 删除

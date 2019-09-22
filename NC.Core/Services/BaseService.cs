@@ -226,46 +226,6 @@ namespace NC.Core.Services
         {
             return await _repo.DeleteAsync(@where);
         }
-
-        /// <summary>
-        /// 逻辑删除
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public int LogicDelete(TKey key)
-        {
-            return _repo.LogicDelete(key);
-        }
-
-        /// <summary>
-        /// 逻辑删除
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public async Task<int> LogicDeleteAsync(TKey key)
-        {
-            return await _repo.LogicDeleteAsync(key);
-        }
-
-        /// <summary>
-        /// 逻辑删除
-        /// </summary>
-        /// <param name="where"></param>
-        /// <returns></returns>
-        public int LogicDelete(Expression<Func<T, bool>> @where)
-        {
-            return _repo.LogicDelete(@where);
-        }
-
-        /// <summary>
-        /// 逻辑删除
-        /// </summary>
-        /// <param name="where"></param>
-        /// <returns></returns>
-        public async Task<int> LogicDeleteAsync(Expression<Func<T, bool>> @where)
-        {
-            return await _repo.LogicDeleteAsync(@where);
-        }
         #endregion
 
         #region Query
