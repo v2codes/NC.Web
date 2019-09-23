@@ -15,7 +15,7 @@ namespace NC.Identity.Store
     /// <summary>
     /// 自定义 UserStore
     /// </summary>
-    public class ApplicationUserStore : IUserStore<SysUser>, IUserPasswordStore<SysUser>,IUserEmailStore<SysUser>
+    public class ApplicationUserStore : IUserStore<SysUser>, IUserPasswordStore<SysUser>, IUserEmailStore<SysUser> // , IUserRoleStore<SysUser>
     {
         private bool _disposed;
         private readonly ApplicationUserDbContext _db;
@@ -112,7 +112,7 @@ namespace NC.Identity.Store
             {
                 throw new ArgumentNullException(nameof(user));
             }
-            return Task.FromResult("u_"+user.UserName);
+            return Task.FromResult("u_" + user.UserName);
         }
 
         /// <summary>
@@ -219,6 +219,33 @@ namespace NC.Identity.Store
 
             return IdentityResult.Success;
         }
+        #endregion
+
+        #region  IUserRoleStore -- not implement
+        //public Task AddToRoleAsync(SysUser user, string roleName, CancellationToken cancellationToken)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task RemoveFromRoleAsync(SysUser user, string roleName, CancellationToken cancellationToken)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<IList<string>> GetRolesAsync(SysUser user, CancellationToken cancellationToken)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<bool> IsInRoleAsync(SysUser user, string roleName, CancellationToken cancellationToken)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<IList<SysUser>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
+        //{
+        //    throw new NotImplementedException();
+        //}
         #endregion
 
         #region IUserPasswordStore

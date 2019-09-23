@@ -8,12 +8,10 @@ namespace NC.Model.EntityModels.Base
     /// <summary>
     /// 自定义 IdentityUser 抽象基类
     /// </summary>
-    /// <typeparam name="TKey"></typeparam>
     public abstract class UserBase : IdentityUser<Guid>, IEntity<Guid>
     {
         public UserBase()
         {
-            Id = Guid.NewGuid();
             Id = Guid.NewGuid();
             Status = (int)EnumStatus.Normal;
             CreateDate = DateTime.Now;
