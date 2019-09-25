@@ -12,7 +12,8 @@
     "antd": "^3.19.5",
     "dva": "^2.6.0-beta.6",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "umi-request": "^1.2.6"
   },
   "devDependencies": {
     "@types/jest": "^23.3.12",
@@ -21,6 +22,7 @@
     "@types/react-test-renderer": "^16.0.3",
     "@umijs/fabric": "^1.1.10",
     "babel-eslint": "^9.0.0",
+    "cross-env": "^6.0.0",
     "eslint": "^5.4.0",
     "eslint-config-umi": "^1.4.0",
     "eslint-plugin-flowtype": "^2.50.0",

@@ -5,10 +5,7 @@ import slash from 'slash2';
 import webpackPlugin from './plugin.config';
 const { pwa, primaryColor } = defaultSettings;
 
-// preview.pro.ant.design only do not use in your production ;
-// preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
-const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env;
-const isAntDesignProPreview = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site';
+const { APP_TYPE } = process.env;
 
 const plugins: IPlugin[] = [
   [
@@ -46,32 +43,34 @@ const plugins: IPlugin[] = [
       //   exclude: ['@babel/runtime', 'netlify-lambda'],
       // },
     }
-  ], [
-    'umi-plugin-pro-block',
-    {
-      moveMock: false,
-      moveService: false,
-      modifyRequest: true,
-      autoAddMenu: true,
-    }
-  ]
+  ],
+  // A plugin for deliver umi block files like ant design pro structure.
+  // [
+  //   'umi-plugin-pro-block',
+  //   {
+  //     moveMock: false,
+  //     moveService: false,
+  //     modifyRequest: true,
+  //     autoAddMenu: true,
+  //   }
+  // ]
 ];
 
-// // 针对 preview.pro.ant.design 的 GA 统计代码
-// if (isAntDesignProPreview) {
-//   plugins.push([
-//     'umi-plugin-ga',
-//     {
-//       code: 'UA-72788897-6',
-//     },
-//   ]);
-//   plugins.push([
-//     'umi-plugin-pro',
-//     {
-//       serverUrl: 'https://ant-design-pro.netlify.com',
-//     },
-//   ]);
-// }
+// 针对 preview.pro.ant.design 的 GA 统计代码
+if (APP_TYPE==='site') {
+  // plugins.push([
+  //   'umi-plugin-ga',
+  //   {
+  //     code: 'UA-72788897-6',
+  //   },
+  // ]);
+  // plugins.push([
+  //   'umi-plugin-pro',
+  //   {
+  //     serverUrl: 'https://ant-design-pro.netlify.com',
+  //   },
+  // ]);
+}
 
 export default {
   plugins,
@@ -84,17 +83,15 @@ export default {
   targets: {
     ie: 11,
   },
-  devtool: isAntDesignProPreview ? 'source-map' : false,
+  devtool: APP_TYPE === 'site' ? 'source-map' : false,
   // umi routes: https://umijs.org/zh/guide/router.html
   routes,
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
     'primary-color': primaryColor,
   },
-  // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
   define: {
-    ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION:
-      ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION || '',
+    APP_TYPE: APP_TYPE || '',
   },
   // 忽略 moment 的 locale 文件，用于减少尺寸。
   ignoreMomentLocale: true,
