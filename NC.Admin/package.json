@@ -9,19 +9,21 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
-    "@ant-design/pro-layout": "^4.5.16",
-    "antd": "^3.19.5",
+    "@ant-design/pro-layout": "^4.5.9",
+    "antd": "^3.20.0",
     "classnames": "^2.2.6",
     "dva": "^2.6.0-beta.6",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "umi-request": "^1.2.6"
+    "umi-request": "^1.2.6",
+    "umi": "^2.9.0",
+    "umi-plugin-react": "^1.9.5"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.9",
     "@types/jest": "^23.3.12",
-    "@types/react": "^16.7.18",
-    "@types/react-dom": "^16.0.11",
+    "@types/react": "^16.8.19",
+    "@types/react-dom": "^16.8.4",
     "@types/react-test-renderer": "^16.0.3",
     "@umijs/fabric": "^1.1.10",
     "babel-eslint": "^9.0.0",
@@ -39,8 +41,6 @@
     "tslint": "^5.12.0",
     "tslint-eslint-rules": "^5.4.0",
     "tslint-react": "^3.6.0",
-    "umi": "^2.9.0",
-    "umi-plugin-react": "^1.8.0",
     "umi-types": "^0.3.0",
     "webpack-theme-color-replacer": "^1.2.17"
   },
