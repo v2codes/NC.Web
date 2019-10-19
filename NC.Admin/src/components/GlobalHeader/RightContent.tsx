@@ -8,14 +8,22 @@ import Avatar from './AvatarDropdown';
 import HeaderSearch from '../HeaderSearch';
 import SelectLang from '../SelectLang';
 import styles from './index.less';
+import HeaderViewProps from '@ant-design/pro-layout/lib/Header';
 
 export type SiderTheme = 'light' | 'dark';
+
 export interface GlobalHeaderRightProps extends ConnectProps {
   theme?: SiderTheme;
   layout: 'sidemenu' | 'topmenu';
 }
 
-const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = props => {
+//! TODO 继承 HeaderViewProps
+export interface GlobalHeaderRightProps2 extends HeaderViewProps {
+  theme?: SiderTheme;
+  layout: 'sidemenu' | 'topmenu';
+}
+
+const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps | GlobalHeaderRightProps2> = props => {
   const { theme, layout } = props;
   let className = styles.right;
 

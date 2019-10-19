@@ -4,7 +4,7 @@
 export default [
   {
     path: '/',
-    component: '../layouts/index',
+    component: '../layouts/BasicLayout',
     routes: [
       { path: '/', component: '../pages/index' }
     ]
